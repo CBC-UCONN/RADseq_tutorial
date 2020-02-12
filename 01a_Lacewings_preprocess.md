@@ -15,7 +15,7 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 ## Contents
   
 1.    [ Motivation ](#Motivation)
-2.    [ Exploring the sequence data ](#Exploring_the_sequence_data)
+2.    [ Exploring the sequence data ](#Exploring-the-sequence-data)
 2.    [ Demultiplex the sample pool ](#Demultiplexing)
 3.    [ Assess sequence quality with FastQC ]()
 3.    [ Quality trim using Trimmomatic ]()
@@ -49,7 +49,7 @@ Here, sample-specific 5bp barcodes represented by orange `X's`, the 6bp remainde
 
 We can test this assumption by exploring the raw data a little bit. 
 
-We haven't talked about the data format, yet, so first we'll do that. Our sequence data are in [fastq format](https://en.wikipedia.org/wiki/FASTQ_format). In fastq, each sequence is represented by 4 lines. The first line is the sequence name and always begins with ">". The second is the nucleotide sequence. The third is a comment line, which always begins with "+" and in almost all cases, is otherwise blank. The fourth line contains [phred-scaled base qualities](https://en.wikipedia.org/wiki/Phred_quality_score), which represent the confidence the sequencer has in its base calls. They are encoded in ASCII characters. 
+We haven't talked about the data format, yet, so first we'll do that. Our sequence data are in [fastq format](https://en.wikipedia.org/wiki/FASTQ_format). In fastq, each sequence is represented by 4 lines. The first line is the sequence name and always begins with "@". The second is the nucleotide sequence. The third is a comment line, which always begins with "+" and in almost all cases, is otherwise blank. The fourth line contains [phred-scaled base qualities](https://en.wikipedia.org/wiki/Phred_quality_score), which represent the confidence the sequencer has in its base calls. They are encoded in ASCII characters. 
 
 Here are 3 example fastq records:
 
