@@ -29,13 +29,13 @@ These data are a subset of data collected for a larger project studying the phyl
 
 The original data consist of 3 RAD libraries, each containing 47 barcoded samples. The authors use the "original" RAD-seq protocol: first use SbfI to digest genomic DNA, then randomly shear and size select. They sequenced a single end on the Illumina platform. 
 
-33 of these samples are used in HTJ. Here I synthesize a multiplexed pool of the 33 HTJ samples from the original larger pools to demonstrate a RAD analysis from start to finish (see directory "data_generation"). 
+**33 of these samples are used in HTJ. Here I synthesize a multiplexed pool of the 33 HTJ samples from the original larger pools to demonstrate a RAD analysis from start to finish (see directory "data_generation"). 
 
-Scripts for exploratory analysis of the entire dataset are located in "../analysis"
+Scripts for exploratory analysis of the entire dataset are located in "../analysis"**
 
-The second source of data is an unpublished dataset by Wegrzyn and colleagues (WEA). It's a genetic association study of resistance of the green ash _Fraxinus pennsylvanica_ to an invasive beetle, the emerald ash borer (_Agrilus planipennis_). 
+The second source of data is an unpublished dataset by Wegrzyn and colleagues (WEA). It's a genetic association study of resistance of the green ash _Fraxinus pennsylvanica_ to an invasive beetle, the emerald ash borer (_Agrilus planipennis_). WEA experimentally exposed individuals from several families of green ash trees to emerald ash borers, measured their level of resistance in a couple different ways, and sequenced them. The idea is to find genetic variants linked to resistance to the beetles. 
 
-The total dataset consists of 6 libraries of 10-16 barcoded samples. WEA use ddRAD (Peterson et al. 2012). In ddRAD, 2 enzymes are used to digest genomic DNA and only fragments cut by both enzymes are sequenced. WEA additionally use degenerate 
+The total dataset consists of 6 libraries of 10-16 barcoded samples. WEA use ddRAD (Peterson et al. 2012). In ddRAD, 2 enzymes are used to digest genomic DNA and only fragments cut by both enzymes are sequenced. WEA additionally add degenerate oligos (sometimes referred to as unique molecular identifiers, or UMIs) to identify and remove duplicate sequences in their dataset (explained in more depth later). This adds a wrinkle to the quality control steps. 
 
 
 __Structure:__

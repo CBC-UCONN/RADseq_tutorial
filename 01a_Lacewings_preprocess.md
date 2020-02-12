@@ -26,6 +26,11 @@ Before we can run a variant-calling pipeline, we need to pre-process the data. M
 
 The lacewing dataset was generated using the "original" RADseq protocol. Whole genomic DNA was digested using the restriction enzyme SbfI and then randomly sheared. Fragments were size-selected and then sequenced from the end of the fragment containing the restriction site. 
 
+
+```
+5'...CCTGCAGG...3'
+3'...GGACGTCC...5'
+```
 ##Demultiplexing
 
 Before we start, it will be helpful to visualize 
