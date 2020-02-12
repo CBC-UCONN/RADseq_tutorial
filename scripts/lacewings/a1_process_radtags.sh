@@ -15,8 +15,9 @@ date
 
 module load stacks/2.41
 
-#input/output directories, supplementary files
-INDIR=../../data
+# input/output directories, supplementary files
+# data for this tutorial stored here:
+INDIR=/UCHC/PublicShare/CBC_Tutorials/RADseq_tutorial_data/
 
 POOL=$INDIR/pool.fq.gz
 BARCODES=../../metadata/henrysamples.txt

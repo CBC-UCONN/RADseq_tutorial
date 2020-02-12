@@ -37,12 +37,14 @@ The second source of data is an unpublished dataset by Wegrzyn and colleagues (W
 
 The total dataset consists of 6 libraries of 10-16 barcoded samples. WEA use ddRAD (Peterson et al. 2012). In ddRAD, 2 enzymes are used to digest genomic DNA and only fragments cut by both enzymes are sequenced. WEA additionally add degenerate oligos (sometimes referred to as unique molecular identifiers, or UMIs) to identify and remove duplicate sequences in their dataset (explained in more depth later). This adds a wrinkle to the quality control steps. 
 
+Both datasets used in this tutorial are stored on the Xanadu cluster here: `/UCHC/PublicShare/CBC_Tutorials/RADseq_tutorial_data/`. 
+
 
 __Structure:__
 
 1. Lacewings
 	
-   a. [ Demultiplex, and preprocess data ]()
+   a. [ Demultiplex, and preprocess data ](/01a_Lacewings_preprocess.md)
 	
    b. [ Stacks _de novo_ ]()
 
