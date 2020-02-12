@@ -16,7 +16,7 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
   
 1.    [ Motivation ](#Motivation)
 2.    [ Exploring the sequence data ](#Exploring-the-sequence-data)
-2.    [ Demultiplex the sample pool ](#Demultiplexing)
+2.    [ Demultiplex the sample pool ](#Demultiplex-the-sample-pool)
 3.    [ Assess sequence quality with FastQC ]()
 3.    [ Quality trim using Trimmomatic ]()
 3.    [ Reassess sequence quality ]()
@@ -100,5 +100,30 @@ The result is set of counts of 11bp sequences from the first 1000 fastq records.
 ```
 
 This result is a bit unrealistic because this is a *synthetic* pool. The sequences are sorted by sample, so these first 1000 sequences all have the barcode `AACCA`. Nevertheless, you can see that only 686 sequences contain the expected `AACCATGCAGG`. The rest of the sequences have errors in the restriction site, or are contaminant sequences that have been erroneously ligated. In a real pool, sample barcodes will be shuffled throughout the file, and you will see errors in the barcodes as well. 
+
+
+## Demultiplex the sample pool
+
+Now that we understand how the data are structured, we can proceed to demultiplexing the sample pool. In the directory `data/` is a file, `pool.fq.gz`, this is our sample pool. We're going to use the module `process_radtags` from `Stacks` to do the demultiplexing. 
+
+We will use the script [a1_process_radtags.sh](/scripts/lacewings/a1_process_radtags.sh) to accomplish this. 
+
+```bash
+process_radtags \
+-f $POOL \
+-o $OUTDIR \
+-b $BARCODES \
+-i gzfastq \
+-y gzfastq \
+-e sbfI \
+-c \
+-q \
+-t 145 \
+-s 20 \
+--adapter_1 AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGTA \
+--adapter_2 AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC \
+--adapter_mm 0
+```
+
 
 
