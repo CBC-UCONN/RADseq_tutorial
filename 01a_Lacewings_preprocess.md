@@ -44,6 +44,11 @@ So the beginning of each sequence should look like the following:
 
 <img src="/img/seq_start.png" alt="Starting sequence" width="315"/>
 
-With sample barcodes represented by orange `Xs`, the SbfI cut site as red nucleotides, and the following template sequence as a purple `...` 
+With sample barcodes represented by orange `X's`, the SbfI cut site as red nucleotides, and the following template sequence as a purple `...` 
 
+We can test this assumption with a short bash pipe. Navigate to the directory `data/` and enter the following:
+
+```bash
+zcat pool.fq.gz | grep -P '^[ACGTN]{5,}' | head -n 1000 | cut -c 1-11 | sort | uniq -c | sort -g
+```
 
