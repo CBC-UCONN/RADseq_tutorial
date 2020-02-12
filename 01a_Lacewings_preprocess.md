@@ -106,7 +106,7 @@ This result is a bit unrealistic because this is a *synthetic* pool. The sequenc
 
 Now that we understand how the data are structured, we can proceed to demultiplexing the sample pool. In the directory `data/` is a file, `pool.fq.gz`, this is our sample pool. We're going to use the module `process_radtags` from `Stacks` to do the demultiplexing. 
 
-We will use the script [a1_process_radtags.sh](/scripts/lacewings/a1_process_radtags.sh) to accomplish this. 
+We will use the script [a1_process_radtags.sh](/scripts/lacewings/a1_process_radtags.sh) to accomplish this. It is located in the `scripts/lacewings/` directory. The core of the script is below:
 
 ```bash
 process_radtags \
@@ -124,6 +124,8 @@ process_radtags \
 --adapter_2 AGATCGGAAGAGCACACGTCTGAACTCCAGTCAC \
 --adapter_mm 0
 ```
+
+In this code, some key files are represented as shell variables (e.g. `$POOL`) that are defined in the script. The flags are explained as follows: `-f` gives the sample pool. `-o` gives the output directory. `-b` is the barcode file. `-i` and `-y` indicate the input and output should be gzipped fastq files. `-e` indicates the restriction enzyme is SbfI. `-c` and `-q` remove reads with N's and overall low quality respectively. `-t` truncates reads to 145bp from the original 150bp. `-s` removes reads whose average quality in any window (0.15x read length) drops below 20. The `--adapter` flags give the adapter sequences and a mismatch tolerance, so that reads with adapter sequence can be filtered out. 
 
 
 
