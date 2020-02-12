@@ -30,8 +30,7 @@ So what does this mean for the DNA sequences we expect to see?
 
 First, SbfI cuts at this motif:
 
-![SbfI cut site](/img/sbfI.png)
-<img src="/img/sbfI.png" alt="SbfI cut site" width="200"/>
+<img src="/img/sbfI.png" alt="SbfI cut site" width="300"/>
 
 ##Demultiplexing
 
