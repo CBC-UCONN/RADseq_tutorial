@@ -24,7 +24,7 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 
 Before we can run a variant-calling pipeline, we need to pre-process the data. Most RAD-seq protocols involve adding sample-specific barcodes to the DNA fragments to be sequenced and then pooling all the samples together. After sequencing, we need to separate each sample out by its barcode, a process often referred to as "demultiplexing". After that, we need to do some basic checks and quality control to evaluate our data and ensure its suitability for downstream analysis. 
 
-##Demultiplexing
+## Demultiplexing
 
 Before we start, it will be helpful to recap the laboratory method, and visualize our expected sequence data. 
 
