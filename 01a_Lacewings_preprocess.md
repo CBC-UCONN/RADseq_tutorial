@@ -51,6 +51,23 @@ We can test this assumption by exploring the raw data a little bit.
 
 We haven't talked about the data format, yet, so first we'll do that. Our sequence data are in [fastq format](https://en.wikipedia.org/wiki/FASTQ_format). In fastq, each sequence is represented by 4 lines. The first line is the sequence name and always begins with ">". The second is the nucleotide sequence. The third is a comment line, which always begins with "+" and in almost all cases, is otherwise blank. The fourth line contains [phred-scaled base qualities](https://en.wikipedia.org/wiki/Phred_quality_score), which represent the confidence the sequencer has in its base calls. They are encoded in ASCII characters. 
 
+Here are 3 example fastq records:
+
+```
+@70_8_1101_13464_1191/1
+AACCATGCAGGCGCTTCACCTTCACCTTGCGCTTCTTGGCACGGAGGACATGGTCCTTGTGCTTCTCCAGCTGACCGAGGTGCTCGCGGCTCTTGGGCTGGGAGCGCTCCTGGTGCGTCTTGCGCTTCAGGTGCTTGTCCAGCCTGCTCGC
++
+JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJAJJJJJJJFJJJJJJJJJJJJJJFFFFJJJFJJJJJFJJJJJJJFJJFFJJJJ77A<JJJJJJ<JF<AJFJAAA<FJJJJJAFJFJFJJJJJJ-FF7
+@70_8_1101_28280_1191/1
+AACCATGCAGGCTCCTCCTTGCCCCGCTGCAGCGGGCCTGGCTGCGTGCATTGCTCTTCCTTATCGGGCACATTCTCCCCGACCAGCCACCAACTACCATTGCACAGCCGCACCGCACTGGCGGGGGTGGCACCCCGACCACCGCCGCCGT
++
+JJJJJJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJFJJJJJJJJJJJJJAJFJJJJJJFJJJJJJJJJJJFJJJJJJJJFJJJJJJFJFFJJJJAJJJFJJFFJFF<JJJJJJJJJJJ-JJJ-<JJJJJ)<F-<)7AFJJJ<FJJ)
+@70_8_1101_4838_1226/1
+AACCATGCAGGCGCTGCGTCATGCTGCCACTGGCACACACGACGAGGTGCAGCGGCGGTGCCGTTGCGTCGAGGTTGACGCTCTGCCGGTAGACGCGCTCGCGGACGCCCCAAAGGAAGTAGGAGAGGAGAGGATTCATGCGGTTGAGGTT
++
+JJJJJJJJJJJJJJJJJJJJJJJJJJJJFJJJJJJJJJJJJJFJJJJJJJJJJJJJJJJJJJJJJJJJJJJFJJJFAFJJJJJJFFJJJJJJJJJJJJ-FJJFJAFJFJJFF<FJF-AJ7AAF-A-<<<AFFJF-<FJ<FF<A))7-<F7-
+```
+
 The fastq files are also compressed using gzip, which is denoted by the suffix ".gz". We recommend always keeping large sequence files compressed, as nearly all relevant programs can deal with gzip-compressed files, and sequence data takes up a huge amount of storage on the Xanadu computer cluster. 
 
 We can inspect the fastq file using `less`, a text file viewer. Navigate to the `data/` directory and enter the following:
