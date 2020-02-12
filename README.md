@@ -29,9 +29,9 @@ These data are a subset of data collected for a larger project studying the phyl
 
 The original data consist of 3 RAD libraries, each containing 47 barcoded samples. The authors use the "original" RAD-seq protocol: first use SbfI to digest genomic DNA, then randomly shear and size select. They sequenced a single end on the Illumina platform. 
 
-**33 of these samples are used in HTJ. Here I synthesize a multiplexed pool of the 33 HTJ samples from the original larger pools to demonstrate a RAD analysis from start to finish (see directory "data_generation"). 
+**33 of these samples are used in HTJ. Here I synthesize a multiplexed pool of the 33 HTJ samples from the original larger pools to demonstrate a RAD analysis from start to finish (see directory "data_generation").**
 
-Scripts for exploratory analysis of the entire dataset are located in "../analysis"**
+**Scripts for exploratory analysis of the entire dataset are located in "../analysis"**
 
 The second source of data is an unpublished dataset by Wegrzyn and colleagues (WEA). It's a genetic association study of resistance of the green ash _Fraxinus pennsylvanica_ to an invasive beetle, the emerald ash borer (_Agrilus planipennis_). WEA experimentally exposed individuals from several families of green ash trees to emerald ash borers, measured their level of resistance in a couple different ways, and sequenced them. The idea is to find genetic variants linked to resistance to the beetles. 
 
@@ -44,7 +44,7 @@ __Structure:__
 
 1. Lacewings
 	
-   a. [ Demultiplex, and preprocess data ](/01a_Lacewings_preprocess.md)
+   a. [ Demultiplex and preprocess data ](/01a_Lacewings_preprocess.md)
 	
    b. [ Stacks _de novo_ ]()
 
