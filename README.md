@@ -16,7 +16,7 @@ Restriction-site associated DNA sequencing (RAD-seq) approaches are a collection
 - It is cost effective, allowing a much larger number of individuals to be genotyped than an equivalent WGS study. 
 - It is computationally effective. A data file containing genotypes for several thousand sites is much more portable and easy to analyze than one potentially containing tens of millions of sites. 
 
-For a useful review of RAD-seq methods, see Andrews et al. (2016). This tutorial will cover two popular software packages for analyzing RAD data. For each it will demonstrate two approaches for generating genotypes: _de novo_ assembly and reference mapping. 
+For a useful review of RAD-seq methods, see Andrews et al. (2016). This tutorial will cover two popular software packages for analyzing RAD data, `Stacks2` (Catchen et al. 2011,Rochette et al. 2019) and iPyrad (Eaton and Overcast 2020). For each it will demonstrate two approaches for generating genotypes: _de novo_ assembly and reference mapping. 
 
 
 ### Sources of data:
@@ -46,7 +46,7 @@ __Structure:__
 	
    a. [ Demultiplex and preprocess data ](/01a_Lacewings_preprocess.md)
 	
-   b. [ Stacks _de novo_ ]()
+   b. [ Stacks _de novo_ ](/02a_Lacewings_stacksdenovo.md)
 
    c. [ Stacks reference mapping ]()
 
@@ -105,11 +105,16 @@ _other utilities_
 
 Andrews, Kimberly R., Jeffrey M. Good, Michael R. Miller, Gordon Luikart, and Paul A. Hohenlohe. 2016. “Harnessing the Power of RADseq for Ecological and Evolutionary Genomics.” Nature Reviews. Genetics 17 (2): 81–92.
 
+Catchen, Julian M., Angel Amores, Paul Hohenlohe, William Cresko, and John H. Postlethwait. 2011. “Stacks: Building and Genotyping Loci de Novo from Short-Read Sequences.” G3  1 (3): 171–82.
+
 Catchen, Julian M., Paul A. Hohenlohe, Louis Bernatchez, W. Chris Funk, Kimberly R. Andrews, and Fred W. Allendorf. 2017. “Unbroken: RADseq Remains a Powerful Tool for Understanding the Genetics of Adaptation in Natural Populations.” Molecular Ecology Resources.
+
+Eaton, Deren A. R., and Isaac Overcast. 2020. “Ipyrad: Interactive Assembly and Analysis of RADseq Datasets.” Bioinformatics , January. https://doi.org/10.1093/bioinformatics/btz966.
 
 Lowry, David B., Sean Hoban, Joanna L. Kelley, Katie E. Lotterhos, Laura K. Reed, Michael F. Antolin, and Andrew Storfer. 2016. “Breaking RAD: An Evaluation of the Utility of Restriction Site-Associated DNA Sequencing for Genome Scans of Adaptation.” Molecular Ecology Resources, November. https://doi.org/10.1111/1755-0998.12635.
 
 Peterson, Brant K., Jesse N. Weber, Emily H. Kay, Heidi S. Fisher, and Hopi E. Hoekstra. 2012. “Double Digest RADseq: An Inexpensive Method for de Novo SNP Discovery and Genotyping in Model and Non-Model Species.” PloS One 7 (5): e37135.
 
+Rochette, Nicolas C., Angel G. Rivera-Colón, and Julian M. Catchen. 2019. “Stacks 2: Analytical Methods for Paired-End Sequencing Improve RADseq-Based Population Genomics.” Molecular Ecology 28 (21): 4737–54.
 
 

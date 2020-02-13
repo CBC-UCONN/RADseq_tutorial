@@ -16,10 +16,8 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
   
 1.    [ Motivation ](#Motivation)
 2.    [ Exploring the sequence data ](#Exploring-the-sequence-data)
-2.    [ Demultiplex the sample pool ](#Demultiplex-the-sample-pool)
-3.    [ Assess sequence quality with FastQC ](Assess_sequence_quality_with_FastQC)
-3.    [ Quality trim using Trimmomatic ]()
-3.    [ Reassess sequence quality ]()
+3.    [ Demultiplex the sample pool ](#Demultiplex-the-sample-pool)
+4.    [ Assess sequence quality with FastQC ](Assess_sequence_quality_with_FastQC)
 
 ## Motivation
 
@@ -147,7 +145,43 @@ If you inspect individual fastq files, you should see that the barcode sequences
 
 ## Assess sequence quality with FastQC
 
-`FastQC` is a program commonly used to assess the sequence quality of 
+`FastQC` is a program commonly used to assess the quality of Illumina sequence data. It reports on the base qualities, levels of adapter contamination, and various other features. 
 
+Since we have 33 samples that can each be processed independently, we can submit this script as an array job. In an array job, we write a single script and the job scheduler executes it 33 times, substituting file names for each execution. When resources are available, this can significantly reduce time to completion. In this case it takes what would be a 10 minute job down to a minute or so. To understand how to specify array jobs, see our guidance [here](https://github.com/CBC-UCONN/Job-Arrays-on-Xanadu). 
 
+The script is simple. The main call looks like this:
+
+```bash
+fastqc -t 2 -o $OUTDIR $INFILE
+```
+
+We can execute the script from the `scripts/lacewings` directory like this:
+
+```bash
+sbatch a2_fastqc.sh
+```
+
+When it is finished, we can use MultiQC to collate the FastQC output for each sample to facilitate checking the data:
+
+```bash
+multiqc ../../results/fastqc_dm
+```
+
+We execute the script as above:
+
+```bash
+sbatch a3_multiqc.sh
+```
+
+To inspect the results, we need to transfer the files to a local computer and view them in a web browser. We can use `scp` like this:
+
+```bash
+scp -r username@transfer.cam.uchc.edu:/full/path/to/RADseq_tutorial/results/fastqc_dm/multiqc* .
+```
+
+Or you can use a GUI-based FTP program like [FileZilla](https://filezilla-project.org/) or [Cyberduck](https://cyberduck.io/). 
+
+On inspecting the data, we can see there are two samples with major problems. First, 107_downesi has substantial adapter contamination and a highly divergent GC content (these are all very closely related species, they should have very similar GC content!). We can keep it in the analysis, but if we look, we'll see later that it also shares very few variant loci with the other samples. The second problematic sample is 050_mediterranea. It has essentially dropped out of the analysis, having only 27 thousand sequence reads. 
+
+We can carry these samples through most of the following steps, but they contribute much to the final analysis. 
 
