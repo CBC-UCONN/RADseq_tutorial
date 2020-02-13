@@ -10,6 +10,8 @@
 #SBATCH --partition=general
 #SBATCH --qos=general
 
+# test run on general partition 2/12/20 took 30m wall clock time. 
+
 hostname
 date
 

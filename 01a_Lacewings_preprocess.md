@@ -17,7 +17,7 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 1.    [ Motivation ](#Motivation)
 2.    [ Exploring the sequence data ](#Exploring-the-sequence-data)
 2.    [ Demultiplex the sample pool ](#Demultiplex-the-sample-pool)
-3.    [ Assess sequence quality with FastQC ]()
+3.    [ Assess sequence quality with FastQC ](Assess_sequence_quality_with_FastQC)
 3.    [ Quality trim using Trimmomatic ]()
 3.    [ Reassess sequence quality ]()
 
@@ -125,7 +125,29 @@ process_radtags \
 --adapter_mm 0
 ```
 
-In this code, some key files are represented as shell variables (e.g. `$POOL`) that are defined in the script. The flags are explained as follows: `-f` gives the sample pool. `-o` gives the output directory. `-b` is the barcode file. `-i` and `-y` indicate the input and output should be gzipped fastq files. `-e` indicates the restriction enzyme is SbfI. `-c` and `-q` remove reads with N's and overall low quality respectively. `-t` truncates reads to 145bp from the original 150bp. `-s` removes reads whose average quality in any window (0.15x read length) drops below 20. The `--adapter` flags give the adapter sequences and a mismatch tolerance, so that reads with adapter sequence can be filtered out. 
+In this code, some key files are represented as shell variables (e.g. `$POOL`) that are defined in the script. The flags are explained as follows: `-f` gives the sample pool. `-o` gives the output directory. `-b` is the barcode file. The file relating samples to barcodes is here `metadata/henrysamples.txt`. `-i` and `-y` indicate the input and output should be gzipped fastq files. `-e` indicates the restriction enzyme is SbfI. `-c` and `-q` remove reads with N's and overall low quality respectively. `-t` truncates reads to 145bp from the original 150bp. `-s` removes reads whose average quality in any window (0.15x read length) drops below 20. The `--adapter` flags give the adapter sequences and a mismatch tolerance, so that reads with adapter sequence can be filtered out. 
+
+It is worth noting that if the barcode + restriction enzyme recognition sequence comes within the mismatch tolerance of the adapter sequence, you can lose **all** the reads from that sample due to the adapter filtering. This happens with one sample in this dataset if you specify `--adapter_mm 2`. 
+
+To understand the Slurm header in the script, see our documentation in the [Xanadu tutorial](https://bioinformatics.uconn.edu/resources-and-events/tutorials-2/xanadu/) and our [guidance on resource requests](https://github.com/CBC-UCONN/CBC_Docs/wiki/Requesting-resource-allocations-in-SLURM). 
+
+We can run the script by navigating to the `scripts/lacewings/` directory and typing
+
+```bash
+sbatch a1_process_radtags.sh
+```
+
+This script takes 30 minutes to run. `process_radtags` writes each individual sample to its own fastq file and produces a log file, all of which are located in `results/demultiplexed_fastqs/`. You can inspect this file by navigating to that directory and typing
+
+```bash
+less process_radtags.RADseq_tutorial_data.log
+```
+
+If you inspect individual fastq files, you should see that the barcode sequences have been removed, and each sequence begins with the SbfI recognition site. 
+
+## Assess sequence quality with FastQC
+
+`FastQC` is a program commonly used to assess the sequence quality of 
 
 
 
