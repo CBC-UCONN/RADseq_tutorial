@@ -29,17 +29,17 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 
 Before we get started, it's worth explaining a little bit about how `Stacks` works in _de novo_ mode. The first four steps collectively identify sequences within and across individuals that correspond to homologous loci. 
 
-Step 1 is to run `ustacks`. This step analyzes **each sample separately**. Reads are first sorted into groups with identical sequences. These groups fall into two classes based on a user-defined frequency threshold: "stacks", which it is hoped represent true allelic sequences, and "secondary reads", which it is hoped are mostly alleles with sequencing errors. If a targeted locus contains a heterozygous site, then at this stage it should be represented by two stacks. The allelic stacks are then assembled into putative loci if their sequence divergence falls below a user-specified threshold. The secondary reads are then mapped back to the loci, again contingent on a user-specified divergence threshold. 
+1. Run `ustacks`. This step analyzes **each sample separately**. Reads are first sorted into groups with identical sequences. These groups fall into two classes based on a user-defined frequency threshold: "stacks", which it is hoped represent true allelic sequences, and "secondary reads", which it is hoped are mostly alleles with sequencing errors. If a targeted locus contains a heterozygous site, then at this stage it should be represented by two stacks. The allelic stacks are then assembled into putative loci if their sequence divergence falls below a user-specified threshold. The secondary reads are then mapped back to the loci, again contingent on a user-specified divergence threshold. 
 
-With a set of putative genetic loci identified **within** individuals we then run `cstacks` to merge loci across individuals and create a catalog of haplotypes for each locus. 
+2. Run `cstacks`. With a set of putative genetic loci identified **within** individuals we then run `cstacks` to merge loci across individuals and create a catalog of haplotypes for each locus. 
 
-Next, we run `sstacks`, which matches loci from individuals to the catalog created by `cstacks`. 
+3. Run `sstacks`, which matches loci from individuals to the catalog created by `cstacks`. 
 
-The fourth step is to run `tsv2bam`, which essentially sorts the data locus-wise. Even with paired-end sequencing data, all steps up to this point have used only the first read. In this step, the second reads are incorporated into bam files. At this stage we have clusters of sequences across individuals that correspond to putative genomic loci. 
+4. Run `tsv2bam`, which essentially sorts the data locus-wise. Even with paired-end sequencing data, all steps up to this point have used only the first read. In this step, the second reads are incorporated into bam files. At this stage we have clusters of sequences across individuals that correspond to putative genomic loci. 
 
-In step 5, we run `gstacks`. This module does three things: first, it assembles reads into contigs, which then form a kind of reference genome; second, it aligns the reads to those contigs; third, it calls variants and genotypes individuals against the reference contigs. 
+5. Run `gstacks`. This module does three things: first, it assembles reads into contigs, which then form a kind of reference genome; second, it aligns the reads to those contigs; third, it calls variants and genotypes individuals against the reference contigs. 
 
-Finally, in step 6, we run `populations`, which calculates some basic statistics and filters and formats the data for downstream analysis.
+6. Run `populations`, which calculates some basic statistics and filters and formats the data for downstream analysis.
 
 For further details about the implementation of `Stacks`, see Rochette et al. (2017) an Catchen et al. (2011). 
 
