@@ -27,7 +27,7 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 
 `Stacks` implements the entire _de novo_ pipeline in a single perl script `denovo_map.pl`, but here we will run each constituent module separately to demonstrate it. 
 
-Before we get started, it's worth explaining a little bit about how `Stacks` works in _de novo_ mode. The first four steps collectively identify sequences within and across individuals that correspond to homologous loci. 
+Before we get started, it's worth explaining a little bit about how `Stacks` works in _de novo_ mode. There are six submodules to run. The first four collectively identify sequences within and across individuals that correspond to homologous loci, the fifth and sixth generate, filter and output genotypes. They are as follows:
 
 1. Run `ustacks`. This step analyzes **each sample separately**. Reads are first sorted into groups with identical sequences. These groups fall into two classes based on a user-defined frequency threshold: "stacks", which it is hoped represent true allelic sequences, and "secondary reads", which it is hoped are mostly alleles with sequencing errors. If a targeted locus contains a heterozygous site, then at this stage it should be represented by two stacks. The allelic stacks are then assembled into putative loci if their sequence divergence falls below a user-specified threshold. The secondary reads are then mapped back to the loci, again contingent on a user-specified divergence threshold. 
 
