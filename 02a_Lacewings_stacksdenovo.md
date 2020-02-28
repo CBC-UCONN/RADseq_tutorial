@@ -59,7 +59,7 @@ ustacks \
 --name $SAM \
 -t gzfastq \
 -p 6 \
--M 8 \
+-M 6 \
 -m 3 \
 --max-gaps 10 \
 --high-cov-thres 10 
@@ -71,9 +71,45 @@ The parameters dealing with file management and program execution are as follows
 
 Several parameters may be modified to change how the algorithm assembles loci within each sample: `-M` is the number of nucleotide differences above which allelic stacks will not be merged into loci. `-m` is the minimum number of reads required to create a stack, and `-N`, which we do not specify, and so leave at the default, is the maximum number of differences allowed to assign a "secondary read" to a stack. 
 
-Because this dataset has very high coverage and multiple species, some with high genetic diversity, we have raised `-m` and `-M` above their default values. 
+You can think of the `-M` parameter as being related to expected heterozygosity. This number varies widely among species (Leffler et al. 2012). Humans are at about 0.001, while some marine invertebrates can range up to 0.05. A good starting place for this parameter might be 2 times the expected heterozygosity times the read length. Setting the value too high will cause paralogous loci to be collapsed, and setting it too low will cause homologous loci to be split. Because this dataset has very high coverage and multiple species, some with high genetic diversity, we have raised `-m` and `-M` above their default values. 
+
+This step will create three files for each sample: `samplename.alleles.tsv.gz`, `samplename.snps.tsv.gz`, and `samplename.tags.tsv.gz`. All will be located in the single specified output directory (see their contents [here](http://catchenlab.life.illinois.edu/stacks/manual/#files)). 
+
+In this script, we parallelize `ustacks` using a feature of the SLURM job scheduler called _job arrays_. For a detailed explanation of how to use job arrays, see [here](https://github.com/CBC-UCONN/CBC_Docs/wiki/Job-arrays-on-Xanadu). Briefly, in a job array we specify an extra line in the SLURM header:
+
+`#SBATCH --array=[0-32]%20`
+
+This indicates the script should be run 33 times, with 20 jobs allowed at once. In each instance, the shell variable `SLURM_ARRAY_TASK_ID` will be given a number between 0 and 32. We use these numbers to pull out a different sample and assign it to the `SAM` variable. This is advanced cluster usage, and you don't need to know how to do it, but it can be very helpful. If you **don't** wish to run this step in parallel, you can run `denovo_map.pl` giving it a list of all your samples and you won't have to deal with job arrays. 
 
 ## Step 2: cstacks
+
+`cstacks` now takes all the putative genetic loci identified within individuals, compares them against each other and merges them to create a catalog of loci across species. 
+
+This step cannot be parallelized, as it needs to take in information across all samples. Here we'll run `cstacks` using [this script](/scripts/lacewings/a5_cstacks.sh). The call looks like this:
+
+```bash
+cstacks \
+-P $INDIR \
+-M ../../metadata/lacewing_popmap.txt \
+-p 20 \
+--max-gaps 10 \
+-n 15
+```
+
+This step has many fewer options. Again, we specify the input directory as a shell variable (defined higher in the script). Following that, we have the population map. This is a tab-separated file with two columns: 1) the sample names and 2) the populations they belong to. In our case, the first few lines look like this:
+
+```
+135_downesi	downesi
+007_downesi	downesi
+010_downesi	downesi
+160_downesi	downesi
+161_downesi	downesi
+114_carnK	carnK
+111_carnK	carnK
+112_carnK	carnK
+109_carnK	carnK
+113_carnK	carnK
+```
 
 
 ## Step 3: sstacks
@@ -91,6 +127,8 @@ Because this dataset has very high coverage and multiple species, some with high
 ## References
 
 Catchen, Julian M., Angel Amores, Paul Hohenlohe, William Cresko, and John H. Postlethwait. 2011. “Stacks: Building and Genotyping Loci de Novo from Short-Read Sequences.” G3  1 (3): 171–82.
+
+Leffler, Ellen M., et al. "Revisiting an old riddle: what determines genetic diversity levels within species?." PLoS biology 10.9 (2012).
 
 Paris, Josephine R., Jamie R. Stevens, and Julian M. Catchen. 2017. “Lost in Parameter Space: A Road Map for Stacks.” Edited by Susan Johnston. Methods in Ecology and Evolution / British Ecological Society 8 (10): 1360–73.
 

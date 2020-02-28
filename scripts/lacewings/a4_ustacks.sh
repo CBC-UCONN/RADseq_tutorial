@@ -23,16 +23,16 @@ module load stacks/2.41
 #input/output directories, supplementary files
 INDIR=../../results/demultiplexed_fastqs
 
+# make output directory if it doesn't exist
+OUTDIR=../../results/stacks/denovo
+mkdir -p $OUTDIR
+
 # make an array of all fastq files
 FASTQS=($(ls -1 $INDIR/*fq.gz))
 # select the fastq file for this array task using SLURM_ARRAY_TASK_ID
 INFILE=$(echo ${FASTQS[$SLURM_ARRAY_TASK_ID]})
 
-# make output directory if it doesn't exist
-OUTDIR=../../results/stacks/denovo
-mkdir -p $OUTDIR
-
-# specify the unique integer (-i $ID) 
+# specify the unique integer (-i $ID), add 1 b/c the task ids start at 0. 
 ID=$(expr 1 + $SLURM_ARRAY_TASK_ID)
 # specify the sample ID (--name $SAM)
 # pull the sample ID from the fastq file name using grep
