@@ -123,22 +123,24 @@ Then we specify the number of CPU threads to use with `-p`. Here we've specified
 ```bash
 sstacks -P $INDIR -M $POPMAP -p 20
 ```
-
 It uses the same population map as above, here specified as a shell variable, and we are setting `-p 20` to allow it to use 20 CPU threads. 
 
 ## Step 4: tsv2bam
 
-`gstacks` now sorts the data for each sample by locus, so variants can be jointly called across samples more efficiently. 
+`tsv2bam` now sorts the data for each sample by locus, so variants can be jointly called across samples more efficiently. 
 
 ```bash
 tsv2bam -P $INDIR -M $POPMAP -t 20
 ```
-
 The options are the same as above. 
 
 ## Step 5: gstacks
 
+`gstacks` now assembles loci, aligns reads against them, and calls variable sites and individual genotypes. 
 
+```bash
+gstacks -P $INDIR -M $POPMAP -t 20
+```
 
 ## Step 6: populations
 

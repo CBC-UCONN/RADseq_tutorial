@@ -22,7 +22,8 @@ module load stacks/2.41
 
 INDIR=../../results/stacks/denovo
 
-POPMAP=../../metadata/popmap.txt
-
+POPMAP=../../metadata/lacewing_popmap.txt
 
 gstacks -P $INDIR -M $POPMAP -t 20
+
+date

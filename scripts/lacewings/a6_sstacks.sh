@@ -24,7 +24,6 @@ INDIR=../../results/stacks/denovo
 
 POPMAP=../../metadata/lacewing_popmap.txt
 
-
 sstacks -P $INDIR -M $POPMAP -p 20
 
 date
