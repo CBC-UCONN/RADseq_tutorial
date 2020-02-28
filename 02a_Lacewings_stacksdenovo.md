@@ -67,7 +67,7 @@ ustacks \
 
 In this code, some key files are represented as shell variables (e.g. `$INFILE`) that are defined higher in the script. 
 
-The parameters dealing with file management and program execution are as follows: `-f` gives the input fastq file, `-o` gives the output directory, `-i` is an integer, which should be unique to each sample, `--name` gives the sample ID, `-t` indicates input fastq files are gzipped amd `-p` specifies the number of cpu threads `ustacks` should use. 
+The parameters dealing with file management and program execution are as follows: `-f` gives the input fastq file, `-o` gives the output directory, `-i` is an integer, which should be unique to each sample, `--name` gives the sample ID, `-t` indicates input fastq files are gzipped amd `-p` specifies the number of cpu threads `ustacks` should use (this should be the same as the number you set in the SLURM header: `#SBATCH --cpus-per-task=6`). 
 
 Several parameters may be modified to change how the algorithm assembles loci within each sample: `-M` is the number of nucleotide differences above which allelic stacks will not be merged into loci. `-m` is the minimum number of reads required to create a stack, and `-N`, which we do not specify, and so leave at the default, is the maximum number of differences allowed to assign a "secondary read" to a stack. 
 
@@ -96,7 +96,7 @@ cstacks \
 -n 15
 ```
 
-This step has many fewer options. Again, we specify the input directory as a shell variable (defined higher in the script). Following that, we have the population map. This is a tab-separated file with two columns: 1) the sample names and 2) the populations they belong to. In our case, the first few lines look like this:
+This step has many fewer options. Again, we specify the input directory as a shell variable (defined higher in the script) `-P $INDIR`. Following that, we have the population map, `-M`. This is a tab-separated file with two columns: 1) the sample names and 2) the populations they belong to. In our case, the first few lines look like this:
 
 ```
 135_downesi	downesi
@@ -109,8 +109,10 @@ This step has many fewer options. Again, we specify the input directory as a she
 112_carnK	carnK
 109_carnK	carnK
 113_carnK	carnK
+...
 ```
 
+Then we specify the number of CPU threads to use with `-p`. Here we've specified `--max-gaps 10` to loci with many or larger gaps to be merged. This is above the default of 2, and a result of trying to make the parameters more lax to deal with a multi-species dataset. Finally, we set `-n 15`. `stacks` suggests this number be identical to `-M` in the previous step, but as we expect genetic divergence between species to be higher than allelic divergence within, I set this higher here. 
 
 ## Step 3: sstacks
 
