@@ -14,7 +14,7 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 ## Contents
   
 1.    [ Motivation ](#Motivation)
-2.    [ Step 1: ustacks ](#Step-1:-ustacks)
+2.    [ Step 1: ustacks ](#Step-1-ustacks)
 3.    [ Step 2: cstacks ](#Step-2:-cstacks)
 4.    [ Step 3: sstacks ](#Step-3:-sstacks)
 5.    [ Step 4: tsv2bam ](#Step-4:-tsv2bam)
@@ -125,6 +125,7 @@ sstacks -P $INDIR -M $POPMAP -p 20
 It uses the same population map as above, here specified as a shell variable, and we are setting `-p 20` to allow it to use 20 CPU threads. 
 
 ## Step 4: tsv2bam
+
 
 
 ## Step 5: gstacks

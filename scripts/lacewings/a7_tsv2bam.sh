@@ -24,5 +24,4 @@ INDIR=../../results/stacks/denovo
 
 POPMAP=../../metadata/popmap.txt
 
-
 tsv2bam -P $INDIR -M $POPMAP -t 20
