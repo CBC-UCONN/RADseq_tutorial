@@ -112,10 +112,17 @@ This step has many fewer options. Again, we specify the input directory as a she
 ...
 ```
 
-Then we specify the number of CPU threads to use with `-p`. Here we've specified `--max-gaps 10` to loci with many or larger gaps to be merged. This is above the default of 2, and a result of trying to make the parameters more lax to deal with a multi-species dataset. Finally, we set `-n 15`. `stacks` suggests this number be identical to `-M` in the previous step, but as we expect genetic divergence between species to be higher than allelic divergence within, I set this higher here. 
+Then we specify the number of CPU threads to use with `-p`. Here we've specified `--max-gaps 10` to loci with many or larger gaps to be merged. This is above the default of 2, and a result of trying to make the parameters more lax to deal with a multi-species dataset. Finally, we set `-n 15`. `stacks` suggests this number be identical to `-M` in the previous step, but as we expect genetic divergence between species to be higher than allelic divergence within, we set this higher here, to the equivalent of 10% divergence over a 150bp read. 
 
 ## Step 3: sstacks
 
+`sstacks` now matches loci from each sample to the catalog created by `cstacks`. This step can be parallelized as in `ustacks`, but it is much faster, so unless you have many samples, it may not be worth it. It's a simple call:
+
+```bash
+sstacks -P $INDIR -M $POPMAP -p 20
+```
+
+It uses the same population map as above, here specified as a shell variable, and we are setting `-p 20` to allow it to use 20 CPU threads. 
 
 ## Step 4: tsv2bam
 

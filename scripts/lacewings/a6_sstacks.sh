@@ -22,11 +22,9 @@ module load stacks/2.41
 
 INDIR=../../results/stacks/denovo
 
-POPMAP=../../metadata/popmap.txt
+POPMAP=../../metadata/lacewing_popmap.txt
 
-# can break this down and parallelize it, but trying it one at a time first
 
 sstacks -P $INDIR -M $POPMAP -p 20
-
 
 date
