@@ -67,9 +67,9 @@ ustacks \
 
 In this code, some key files are represented as shell variables (e.g. `$INFILE`) that are defined higher in the script. 
 
-_Parameters dealing with file management and program execution_: `-f` gives the input fastq file, `-o` gives the output directory, `-i` is an integer, which should be unique to each sample, `--name` gives the sample ID, `-t` indicates the format of the input files (here gzipped fastq) and `-p` specifies the number of cpu threads `ustacks` should use. `-p` should be the same as the number you set in the SLURM header: `#SBATCH --cpus-per-task=6`). 
+__Parameters dealing with file management and program execution__: `-f` gives the input fastq file, `-o` gives the output directory, `-i` is an integer, which should be unique to each sample, `--name` gives the sample ID, `-t` indicates the format of the input files (here gzipped fastq) and `-p` specifies the number of cpu threads `ustacks` should use. `-p` should be the same as the number you set in the SLURM header: `#SBATCH --cpus-per-task=6`). 
 
-_Algorithmic parameters impacting assembly_: `-M` is the number of nucleotide differences above which allelic stacks will not be merged into loci. `-m` is the minimum number of reads required to create a stack, and `-N`, which we do not specify, and so leave at the default, is the maximum number of differences allowed to assign a "secondary read" to a stack. 
+__Algorithmic parameters impacting assembly__: `-M` is the number of nucleotide differences above which allelic stacks will not be merged into loci. `-m` is the minimum number of reads required to create a stack, and `-N`, which we do not specify, and so leave at the default, is the maximum number of differences allowed to assign a "secondary read" to a stack. 
 
 You can think of the `-M` parameter as being related to expected heterozygosity. This number varies widely among species (Leffler et al. 2012). Humans are at about 0.001, while some marine invertebrates can range up to 0.05. A good starting place for this parameter might be 2 times the expected heterozygosity times the read length. Setting the value too high will cause paralogous loci to be collapsed, and setting it too low will cause homologous loci to be split. Because this dataset has very high coverage and multiple species, some with high genetic diversity, we have raised `-m` and `-M` above their default values. 
 
@@ -77,7 +77,7 @@ The parameter `--max-gaps` gives the maximum number of gaps that can exist betwe
 
 `ustacks` will create three files for each sample: `samplename.alleles.tsv.gz`, `samplename.snps.tsv.gz`, and `samplename.tags.tsv.gz`. All will be located in the single specified output directory (see their contents [here](http://catchenlab.life.illinois.edu/stacks/manual/#files)). 
 
-In this script, we parallelize `ustacks` using a feature of the SLURM job scheduler called _job arrays_. For a detailed explanation of how to use job arrays, see [here](https://github.com/CBC-UCONN/CBC_Docs/wiki/Job-arrays-on-Xanadu). Briefly, in a job array we specify an extra line in the SLURM header:
+__Parallelizing ustacks__: In this script, we parallelize `ustacks` using a feature of the SLURM job scheduler called _job arrays_. For a detailed explanation of how to use job arrays, see [here](https://github.com/CBC-UCONN/CBC_Docs/wiki/Job-arrays-on-Xanadu). Briefly, in a job array we specify an extra line in the SLURM header:
 
 `#SBATCH --array=[0-32]%20`
 
