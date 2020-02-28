@@ -132,7 +132,7 @@ It uses the same population map as above, here specified as a shell variable, an
 ```bash
 tsv2bam -P $INDIR -M $POPMAP -t 20
 ```
-The options are the same as above. 
+The options are the same as above, except `-t` gives the number of CPU threads. 
 
 ## Step 5: gstacks
 
@@ -141,8 +141,22 @@ The options are the same as above.
 ```bash
 gstacks -P $INDIR -M $POPMAP -t 20
 ```
+Here we use the same options as above, but some can be altered to influence how variant calling is done. 
 
 ## Step 6: populations
+
+Finally, we can filter and reformat the data for use in downstream applications using `populations`. 
+
+```bash
+populations \
+-P $INDIR \
+-M $POPMAP \
+--vcf \
+--fasta-samples \
+--fasta-loci \
+--treemix \
+-t 8
+```
 
 
 ## References

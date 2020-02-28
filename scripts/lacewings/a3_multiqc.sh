@@ -1,12 +1,11 @@
 #!/bin/bash 
 #SBATCH --job-name=multiqc
-#SBATCH --mail-user=noah.reid@uconn.edu
+#SBATCH --mail-user=
 #SBATCH --mail-type=ALL
 #SBATCH -o %x_%j.out
 #SBATCH -e %x_%j.err
-#SBATCH -n 1
-#SBATCH -N 1
-#SBATCH -c 1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
 #SBATCH --mem=10G
 #SBATCH --qos=general
 #SBATCH --partition=general
