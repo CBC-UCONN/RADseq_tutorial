@@ -15,11 +15,11 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
   
 1.    [ Motivation ](#Motivation)
 2.    [ Step 1: ustacks ](#Step-1-ustacks)
-3.    [ Step 2: cstacks ](#Step-2:-cstacks)
-4.    [ Step 3: sstacks ](#Step-3:-sstacks)
-5.    [ Step 4: tsv2bam ](#Step-4:-tsv2bam)
-6.    [ Step 5: gstacks ](#Step-5:-gstacks)
-7.    [ Step 6: populations ](#Step-6:-populations)
+3.    [ Step 2: cstacks ](#Step-2-cstacks)
+4.    [ Step 3: sstacks ](#Step-3-sstacks)
+5.    [ Step 4: tsv2bam ](#Step-4-tsv2bam)
+6.    [ Step 5: gstacks ](#Step-5-gstacks)
+7.    [ Step 6: populations ](#Step-6-populations)
 
 ## Motivation
 
@@ -35,7 +35,7 @@ Before we get started, it's worth explaining a little bit about how `Stacks` wor
 
 3. `sstacks`: This module matches loci from individuals to the catalog created by `cstacks`. 
 
-4. `tsv2bam`: This module essentially sorts the data locus-wise. Even with paired-end sequencing data, all steps up to this point have used only the first read. In this step, the second reads are incorporated into bam files. At this stage we have clusters of sequences across individuals that correspond to putative genomic loci. 
+4. `tsv2bam`: This module essentially sorts the data locus-wise instead of sample-wise. Even with paired-end sequencing data, all steps up to this point have used only the first read. In this step, the second reads are incorporated into bam files. At this stage we have clusters of sequences across individuals that correspond to putative genomic loci. 
 
 5. `gstacks`: This module does three things: first, it assembles reads into contigs, which then form a kind of reference genome; second, it aligns the reads to those contigs; third, it calls variants and genotypes individuals against the reference contigs. 
 
@@ -61,25 +61,27 @@ ustacks \
 -p 6 \
 -M 6 \
 -m 3 \
---max-gaps 10 \
+--max-gaps 5 \
 --high-cov-thres 10 
 ```
 
 In this code, some key files are represented as shell variables (e.g. `$INFILE`) that are defined higher in the script. 
 
-The parameters dealing with file management and program execution are as follows: `-f` gives the input fastq file, `-o` gives the output directory, `-i` is an integer, which should be unique to each sample, `--name` gives the sample ID, `-t` indicates input fastq files are gzipped amd `-p` specifies the number of cpu threads `ustacks` should use (this should be the same as the number you set in the SLURM header: `#SBATCH --cpus-per-task=6`). 
+_Parameters dealing with file management and program execution_: `-f` gives the input fastq file, `-o` gives the output directory, `-i` is an integer, which should be unique to each sample, `--name` gives the sample ID, `-t` indicates the format of the input files (here gzipped fastq) and `-p` specifies the number of cpu threads `ustacks` should use. `-p` should be the same as the number you set in the SLURM header: `#SBATCH --cpus-per-task=6`). 
 
-Several parameters may be modified to change how the algorithm assembles loci within each sample: `-M` is the number of nucleotide differences above which allelic stacks will not be merged into loci. `-m` is the minimum number of reads required to create a stack, and `-N`, which we do not specify, and so leave at the default, is the maximum number of differences allowed to assign a "secondary read" to a stack. 
+_Algorithmic parameters impacting assembly_: `-M` is the number of nucleotide differences above which allelic stacks will not be merged into loci. `-m` is the minimum number of reads required to create a stack, and `-N`, which we do not specify, and so leave at the default, is the maximum number of differences allowed to assign a "secondary read" to a stack. 
 
 You can think of the `-M` parameter as being related to expected heterozygosity. This number varies widely among species (Leffler et al. 2012). Humans are at about 0.001, while some marine invertebrates can range up to 0.05. A good starting place for this parameter might be 2 times the expected heterozygosity times the read length. Setting the value too high will cause paralogous loci to be collapsed, and setting it too low will cause homologous loci to be split. Because this dataset has very high coverage and multiple species, some with high genetic diversity, we have raised `-m` and `-M` above their default values. 
 
-This step will create three files for each sample: `samplename.alleles.tsv.gz`, `samplename.snps.tsv.gz`, and `samplename.tags.tsv.gz`. All will be located in the single specified output directory (see their contents [here](http://catchenlab.life.illinois.edu/stacks/manual/#files)). 
+The parameter `--max-gaps` gives the maximum number of gaps that can exist between two stacks to merge them. We set this higher than the default here because these are 150bp reads. `--high-cov-thre` the number of standard deviations above the mean that a stack can be before it is discarded as a repetitive element. We set this higher for this dataset because preliminary analyses at 3 (the default) were discarding 80% of the data. 
+
+`ustacks` will create three files for each sample: `samplename.alleles.tsv.gz`, `samplename.snps.tsv.gz`, and `samplename.tags.tsv.gz`. All will be located in the single specified output directory (see their contents [here](http://catchenlab.life.illinois.edu/stacks/manual/#files)). 
 
 In this script, we parallelize `ustacks` using a feature of the SLURM job scheduler called _job arrays_. For a detailed explanation of how to use job arrays, see [here](https://github.com/CBC-UCONN/CBC_Docs/wiki/Job-arrays-on-Xanadu). Briefly, in a job array we specify an extra line in the SLURM header:
 
 `#SBATCH --array=[0-32]%20`
 
-This indicates the script should be run 33 times, with 20 jobs allowed at once. In each instance, the shell variable `SLURM_ARRAY_TASK_ID` will be given a number between 0 and 32. We use these numbers to pull out a different sample and assign it to the `SAM` variable. This is advanced cluster usage, and you don't need to know how to do it, but it can be very helpful. If you **don't** wish to run this step in parallel, you can run `denovo_map.pl` giving it a list of all your samples and you won't have to deal with job arrays. 
+This indicates the script should be run 33 times, with 20 jobs allowed at once. In each instance, the shell variable `SLURM_ARRAY_TASK_ID` will be given a number between 0 and 32. We use these numbers to pull out a different sample and assign it to the `SAM` variable and to set the `ID` variable. This is advanced cluster usage, and you don't need to know how to do it, but it can be very helpful. If you **don't** wish to run this step in parallel, you can run `denovo_map.pl` giving it a list of all your samples and you won't have to deal with job arrays. 
 
 ## Step 2: cstacks
 
@@ -96,7 +98,7 @@ cstacks \
 -n 15
 ```
 
-This step has many fewer options. Again, we specify the input directory as a shell variable (defined higher in the script) `-P $INDIR`. Following that, we have the population map, `-M`. This is a tab-separated file with two columns: 1) the sample names and 2) the populations they belong to. In our case, the first few lines look like this:
+This step has many fewer options. Again, we specify the input directory as a shell variable (defined higher in the script) `-P $INDIR`. Following that, we have the population map, `-M`. This is a tab-separated file with two columns: first, the sample names and second, the populations they belong to. In our case, the first few lines look like this:
 
 ```
 135_downesi	downesi
@@ -112,7 +114,7 @@ This step has many fewer options. Again, we specify the input directory as a she
 ...
 ```
 
-Then we specify the number of CPU threads to use with `-p`. Here we've specified `--max-gaps 10` to loci with many or larger gaps to be merged. This is above the default of 2, and a result of trying to make the parameters more lax to deal with a multi-species dataset. Finally, we set `-n 15`. `stacks` suggests this number be identical to `-M` in the previous step, but as we expect genetic divergence between species to be higher than allelic divergence within, we set this higher here, to the equivalent of 10% divergence over a 150bp read. 
+Then we specify the number of CPU threads to use with `-p`. Here we've specified `--max-gaps 10` to allow loci with many or larger gaps to be merged. We are trying to make the assembly parameters more lax to deal with a multi-species dataset. Finally, we set `-n 15`. This flag is the maximum allowable number of differences between loci from different samples. The `Stacks` documentation suggests this number be identical to `-M` in the previous step, but as we expect genetic divergence between species to be higher than allelic divergence within, we set this higher here, to the equivalent of 10% divergence over a 150bp read. 
 
 ## Step 3: sstacks
 
@@ -126,9 +128,16 @@ It uses the same population map as above, here specified as a shell variable, an
 
 ## Step 4: tsv2bam
 
+`gstacks` now sorts the data for each sample by locus, so variants can be jointly called across samples more efficiently. 
 
+```bash
+tsv2bam -P $INDIR -M $POPMAP -t 20
+```
+
+The options are the same as above. 
 
 ## Step 5: gstacks
+
 
 
 ## Step 6: populations
