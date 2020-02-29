@@ -26,6 +26,10 @@ POPMAP=../../metadata/lacewing_popmap.txt
 populations \
 -P $INDIR \
 -M $POPMAP \
+-p 5 \
+-r 2 \
+--hwe \
+--genepop \
 --vcf \
 --fasta-samples \
 --fasta-loci \

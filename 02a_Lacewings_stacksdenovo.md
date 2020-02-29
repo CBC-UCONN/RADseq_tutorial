@@ -151,12 +151,17 @@ Finally, we can filter and reformat the data for use in downstream applications 
 populations \
 -P $INDIR \
 -M $POPMAP \
+-p 5 \
+-r 2 \
+--hwe \
+--genepop \
 --vcf \
---fasta-samples \
---fasta-loci \
 --treemix \
 -t 8
 ```
+
+The input and population files are specified as above. `-p` sets the minimum number of populations a locus must appear in to be output. `-r` is the minimum number of samples per population a locus must appear in to be output. `--hwe` calculates the departure from Hardy-Weinberg equilibrium for each locus. The next three options output the genotypes in three different formats and `-t` indicates the number of CPU threads that should be used. 
+
 
 
 ## References
