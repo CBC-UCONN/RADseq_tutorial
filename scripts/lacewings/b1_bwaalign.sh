@@ -34,7 +34,7 @@ FASTQS=($(ls -1 $INDIR/*.fq.gz))
 # pull out a single fastq file
 INFILE=$(echo ${FASTQS[$SLURM_ARRAY_TASK_ID]} | sed 's/.*\///')
 # use sed to create an output file name
-OUTFILE=$(echo $INFILE | sed 's/fastq.gz/bam/')
+OUTFILE=$(echo $INFILE | sed 's/fq.gz/bam/')
 
 # get the sample ID and use it to specify the read group. 
 SAM=$(echo $OUTFILE | sed 's/\..*//')
