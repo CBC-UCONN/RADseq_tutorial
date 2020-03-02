@@ -49,7 +49,7 @@ It is worth noting that there are many parameters users may set to influence the
 
 `ustacks` clusters sequences and identifies loci within each sample. This means we can parallelize it by executing it separately for each sample. This is an advantage of running the separate modules on their own. 
 
-Here we'll run `ustacks` using [this script](/scripts/lacewings/a4_ustacks.sh). Before explaining how to parallelize it, we'll first look at the `ustacks` call and its options. 
+Here we'll run `ustacks` using [this script](/scripts/lacewings/b1_ustacks.sh). Before explaining how to parallelize it, we'll first look at the `ustacks` call and its options. 
 
 ```bash
 ustacks \
@@ -86,7 +86,7 @@ This indicates the script should be run 33 times, with 20 jobs allowed at once. 
 We can run the script by navigating to the `scripts/lacewings/` directory and typing
 
 ```bash
-sbatch a4_ustacks.sh
+sbatch b1_ustacks.sh
 ```
 
 One of the important things to have a look at here are the summaries of how the data was assembled. In our script, these summaries are written to slurm `.err` files. There is one for each task in the job array, and they'll be located in the directory `scripts/lacewings`. The actual job numbers will change, but here we can have a look at `ustacks_724336_1.err`. This should correspond to the sample `010_downesi`. The file first lists the parameters that were run and then output that looks like this:
@@ -135,7 +135,7 @@ In the end, only 53% of the data are assembled into 6727 potentially usable loci
 
 `cstacks` now takes all the putative genetic loci identified within individuals, compares them against each other and merges them to create a catalog of loci across species. 
 
-This step cannot be parallelized, as it needs to take in information across all samples. Here we'll run `cstacks` using [this script](/scripts/lacewings/a5_cstacks.sh). The call looks like this:
+This step cannot be parallelized, as it needs to take in information across all samples. Here we'll run `cstacks` using [this script](/scripts/lacewings/b2_cstacks.sh). The call looks like this:
 
 ```bash
 cstacks \
@@ -167,12 +167,12 @@ Then we specify the number of CPU threads to use with `-p`. Here we've specified
 We can run the script by navigating to the `scripts/lacewings/` directory and typing
 
 ```bash
-sbatch a5_cstacks.sh
+sbatch b2_cstacks.sh
 ```
 
 ## Step 3: sstacks
 
-`sstacks` now matches loci from each sample to the catalog created by `cstacks`. This step can be parallelized as in `ustacks`, but it is much faster, so unless you have many samples, it may not be worth it. We'll run `sstacks` using [this script](/scripts/lacewings/a6_sstacks.sh). It's a simple call:
+`sstacks` now matches loci from each sample to the catalog created by `cstacks`. This step can be parallelized as in `ustacks`, but it is much faster, so unless you have many samples, it may not be worth it. We'll run `sstacks` using [this script](/scripts/lacewings/b3_sstacks.sh). It's a simple call:
 
 ```bash
 sstacks -P $INDIR -M $POPMAP -p 20
@@ -182,12 +182,12 @@ It uses the same population map as above, here specified as a shell variable, an
 We can run the script by navigating to the `scripts/lacewings/` directory and typing
 
 ```bash
-sbatch a6_sstacks.sh
+sbatch b3_sstacks.sh
 ```
 
 ## Step 4: tsv2bam
 
-`tsv2bam` now sorts the data for each sample by locus, so variants can be jointly called across samples more efficiently. We'll run `tsv2bam` using [this script](/scripts/lacewings/a7_tsv2bam.sh). The call looks like this:
+`tsv2bam` now sorts the data for each sample by locus, so variants can be jointly called across samples more efficiently. We'll run `tsv2bam` using [this script](/scripts/lacewings/b4_tsv2bam.sh). The call looks like this:
 
 ```bash
 tsv2bam -P $INDIR -M $POPMAP -t 20
@@ -197,12 +197,12 @@ The options are the same as above, except `-t` gives the number of CPU threads.
 We can run the script by navigating to the `scripts/lacewings/` directory and typing
 
 ```bash
-sbatch a7_tsv2bam.sh
+sbatch b4_tsv2bam.sh
 ```
 
 ## Step 5: gstacks
 
-`gstacks` now assembles loci, aligns reads against them, and calls variable sites and individual genotypes. We'll run `gstacks` using [this script](/scripts/lacewings/a8_gstacks.sh). 
+`gstacks` now assembles loci, aligns reads against them, and calls variable sites and individual genotypes. We'll run `gstacks` using [this script](/scripts/lacewings/b5_gstacks.sh). 
 
 ```bash
 gstacks -P $INDIR -M $POPMAP -t 20
@@ -212,11 +212,11 @@ Here we use the same options as above, but some can be altered to influence how 
 We can run the script by navigating to the `scripts/lacewings/` directory and typing
 
 ```bash
-sbatch a8_gstacks.sh
+sbatch b5_gstacks.sh
 ```
 ## Step 6: populations
 
-Finally, we can filter and reformat the data for use in downstream applications using `populations`. We'll run `populations` using [this script](/scripts/lacewings/a9_populations.sh). The call looks like this:
+Finally, we can filter and reformat the data for use in downstream applications using `populations`. We'll run `populations` using [this script](/scripts/lacewings/b6_populations.sh). The call looks like this:
 
 ```bash
 populations \
@@ -236,7 +236,7 @@ The input and population files are specified as above. `-p` sets the minimum num
 We can run the script by navigating to the `scripts/lacewings/` directory and typing
 
 ```bash
-sbatch a9_populations.sh
+sbatch b6_populations.sh
 ```
 This should be pretty quick, and at the end we should have a number of output files that all start with "populations" in the `results/stacks/denovo` directory. 
 
