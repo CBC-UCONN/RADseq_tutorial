@@ -48,9 +48,9 @@ __Structure:__
 	
    a. [ Demultiplex and preprocess data ](/01a_Lacewings_preprocess.md)
 	
-   b. [ Stacks _de novo_ ](/02a_Lacewings_stacksdenovo.md)
+   b. [ Stacks _de novo_ ](/01b_Lacewings_stacksdenovo.md)
 
-   c. [ Stacks reference mapping ]()
+   c. [ Stacks reference mapping ](/01c_Lacewings_stacksrefmap.md)
 
    d. [ ipyrad _de novo_ ]()
 

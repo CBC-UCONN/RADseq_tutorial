@@ -21,7 +21,7 @@ module load stacks/2.41
 # data for this tutorial stored here:
 INDIR=/UCHC/PublicShare/CBC_Tutorials/RADseq_tutorial_data/
 
-POOL=$INDIR/pool.fq.gz
+POOL=$INDIR/lacewing_pool.fq.gz
 BARCODES=../../metadata/henrysamples.txt
 
 # make demultiplexed directory if it doesn't exist

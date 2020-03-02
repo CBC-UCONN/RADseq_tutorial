@@ -89,6 +89,48 @@ We can run the script by navigating to the `scripts/lacewings/` directory and ty
 sbatch a4_ustacks.sh
 ```
 
+One of the important things to have a look at here are the summaries of how the data was assembled. In our script, these summaries are written to slurm `.err` files. There is one for each task in the job array, and they'll be located in the directory `scripts/lacewings`. The actual job numbers will change, but here we can have a look at `ustacks_724336_1.err`. This should correspond to the sample `010_downesi`. The file first lists the parameters that were run and then output that looks like this:
+
+```
+Loaded 2679865 reads; formed:
+  18944 stacks representing 2421459 primary reads (90.4%)
+  241086 secondary stacks representing 258406 secondary reads (9.6%)
+
+Stack coverage: mean=127.82; stdev=1735.81; max=152812; n_reads=2421459(90.4%)
+Removing repetitive stacks: cov > 17486 (mean+10*stdev)...
+  Blacklisted 2740 stacks.
+Coverage after repeat removal: mean=102.25; stdev=264.57; max=17475; n_reads=1656879(61.8%)
+
+Assembling stacks (max. dist. M=8)...
+  Assembled 16204 stacks into 7914; blacklisted 314 stacks.
+Coverage after assembling stacks: mean=155.85; stdev=199.45; max=1601; n_reads=1182929(44.1%)
+
+Merging secondary stacks (max. dist. N=10 from consensus)...
+  Merged 180024 out of 258406 secondary reads (69.7%), 60738 merged with gapped alignments.
+Coverage after merging secondary stacks: mean=179.57; stdev=240.74; max=8373; n_reads=1362953(50.9%)
+
+Assembling stacks, allowing for gaps (min. match length 80.0%)...
+  Assembled 7914 stacks into 6727 stacks.
+Coverage after gapped assembly: mean=212.86; stdev=261.43; max=8373; n_reads=1362953(50.9%)
+
+Merging secondary stacks, allowing for gaps (min. match length 80.0%)...
+  Merged 63221 out of 78382 secondary reads (80.7%).
+Coverage after merging gapped secondary stacks: mean=222.74; stdev=277.72; max=8373; n_reads=1426174(53.2%)
+
+Final coverage: mean=222.74; stdev=277.72; max=8373; n_reads=1426174(53.2%)
+```
+
+There are six steps here. 
+
+1. Creating the initial stacks (90.4% of reads) and secondary read stacks (9.6% of reads). 
+2. Removing excessively high coverage stacks. This throws away 28.6% of the data! You can see that the average initial stack depth for **this** dataset is 102.25x. `-m` is three, but could reasonably be set **much** higher. 50 would probably be reasonable. This is extremely dataset dependent. 
+3. Assembling the stacks into loci and again removing high coverage stacks. Now we've lost another 17.7% of the data!
+4. Merging secondary stacks. 
+5. Merging stacks with gaps. 
+6. Merging secondary stacks with gaps. 
+
+In the end, only 53% of the data are assembled into 6727 potentially usable loci. The rest of the samples are consistent with this. I have tried to modify the parameters to do better, but the variance in coverage among stacks is extreme. This is either due to a highly repetitive genome or issues with sample preparation. With single-end RAD we don't have a lot of ways to diagnose this. 
+
 ## Step 2: cstacks
 
 `cstacks` now takes all the putative genetic loci identified within individuals, compares them against each other and merges them to create a catalog of loci across species. 
@@ -196,6 +238,7 @@ We can run the script by navigating to the `scripts/lacewings/` directory and ty
 ```bash
 sbatch a9_populations.sh
 ```
+This should be pretty quick, and at the end we should have a number of output files that all start with "populations" in the `results/stacks/denovo` directory. 
 
 
 ## References
