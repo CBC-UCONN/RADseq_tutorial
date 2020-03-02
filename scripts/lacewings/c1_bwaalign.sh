@@ -45,4 +45,7 @@ bwa mem -t 4 -R $RG $REFERENCE $INDIR/$INFILE | \
 samtools view -S -h -u - | \
 samtools sort -T /scratch/$SAM - >$OUTDIR/$OUTFILE
 
+# index the bam file
+samtools index $OUTDIR/$OUTFILE
+
 date
