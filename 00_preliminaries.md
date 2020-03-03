@@ -7,6 +7,7 @@ Before we get started with the tutorial, here are a few bits of background you s
 This tutorial assumes you have some basic familiarity with `bash` and uses a few techniques that could be described as "intermediate bash scripting". If you are not yet familiar with bash, see [here]() learn and practice some of the basics. Here are some of the more intermediate techniques we'll use in the tutorial:
 
 - Pipes
+
   bash scripts often chain together multiple commands with pipes: `|`. Pipes can be used with programs that can write output to the _standard output_ stream and read input from the _standard input_ stream. Try the following:
 
   ```bash
