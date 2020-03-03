@@ -2,7 +2,7 @@
 
 Before we get started with the tutorial, here are a few bits of background you should be aware of. 
 
-# Bash scripting
+## Bash scripting
 
 This tutorial assumes you have some basic familiarity with `bash` and uses a few techniques that could be described as "intermediate bash scripting". If you are not yet familiar with bash, see [here]() learn and practice some of the basics. Here are some of the more intermediate techniques we'll use in the tutorial:
 
@@ -18,6 +18,7 @@ This tutorial assumes you have some basic familiarity with `bash` and uses a few
   # this turns the space into a line break. 
   ```
 - Shell variables
+
   We often use variables in shell scripting to make code easier to read. For example, in a command that looks like this:
   ```bash
 	myprogram -I /very/extremely/long/path/to/GARBLEDACCESSIONX1848XKKD.fasta -O /another/very/extremely/long/path/to/RESULTSDIRECTORY/
