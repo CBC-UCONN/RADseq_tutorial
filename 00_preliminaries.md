@@ -2,15 +2,15 @@
 
 Before we get started with the tutorial, here are a few bits of background you should be aware of. 
 
-- Bash scripting
+- [Bash scripting](#bash-scripting)
   - [Pipes](#pipes)
   - [Shell variables](#shell-variables)
-  - `sed`
-- The Xanadu cluster
-  - What is Xanadu?
-  - What is SLURM?
-  - The SLURM header
-  - Array jobs. 
+  - [`sed`](#sed)
+- [The Xanadu cluster](#the-xanadu-cluster-and-slurm)
+  - [What is Xanadu?](#what-is-xanadu)
+  - [What is SLURM?](#what-is-slurm)
+  - [The SLURM header](#the-slurm-header)
+  - [Array jobs](#array-jobs)
 
 ## Bash scripting
 
