@@ -4,7 +4,7 @@ Before we get started with the tutorial, here are a few bits of background you s
 
 ## Bash scripting
 
-This tutorial assumes you have some basic familiarity with `bash` and uses a few techniques that could be described as "intermediate bash scripting". If you are not yet familiar with bash, see [here]() learn and practice some of the basics. Here are some of the more intermediate techniques we'll use in the tutorial:
+This tutorial assumes you have some basic familiarity with `bash`. If you are not yet familiar with bash, see [here]() to learn and practice some of the basics. It also uses a few techniques that could be described as "intermediate bash scripting". Here are some of the more intermediate techniques we'll use in the tutorial:
 
 - Pipes
 
@@ -34,13 +34,13 @@ This tutorial assumes you have some basic familiarity with `bash` and uses a few
   ```
   The shell variable is a text string and is interpreted in the context in which it is invoked. 
 
-  Note that when _setting_ variables you write `VARIABLE=something`, but when _invoking_ variables you need that `$` at the beginning. You may also invoke variables by ${VARIABLE}. 
+  Note that when _setting_ variables you write `VARIABLE=something`, but when _invoking_ variables you write `$VARIABLE`. You need that `$` at the beginning. You may also invoke variables by ${VARIABLE}. 
 
   Aside from making cleaner code, variables also provide the major advantage that we can easily substitute variables once in a script when necessary, instead of editing every occurence when a certain file, path or parameter needs to be changed. 
 
 - `sed`
   
-  `sed`, or "the **s**tream **ed**itor" is a very flexible utility, but it is most often used to edit text read from the standard input stream. In this tutorial we might use it to construct or edit input or output file names. 
+  `sed`, or the "**s**tream **ed**itor" is a very flexible utility, but it is most often used to edit text read from the standard input stream. In this tutorial we use it to construct or edit input or output file names. 
 
   ```bash
   # say we had an input file:
@@ -48,14 +48,20 @@ This tutorial assumes you have some basic familiarity with `bash` and uses a few
   # and we wanted to create an output file name. 
   # we can do:
   OUTFILE=$(echo $INFILE | sed 's/.fastq.gz/.bam')
-  # now the variable outfile will contain "007_downesi.fastq.gz"
+  # now the variable $OUTFILE will contain "007_downesi.bam"
+  # and we could run our program
+  myprogram -I $INFILE -O $OUTFILE
   ```
-  Above, we write the input file name to the standard output stream using echo, redirect it to the standard input stream using a pipe, and edit it using `sed`. The find-replace operator for `sed` is `s/pattern/replacement/`. You can use regular expressions to do flexible pattern matching, but regexes are beyond the scope of this tutorial. 
+  Above, we write `$INFILE` to the standard output stream using `echo`, redirect it to the standard input stream using `|`, and edit it using `sed`. The find-replace operator for `sed` is `s/pattern/replacement/`. You can use regular expressions to do flexible pattern matching, but regexes are beyond the scope of this tutorial. 
 
-xanadu and SLURM
-- what is xanadu?
-- what is SLURM?
-- SLURM header
+The Xanadu cluster and SLURM
+- What is Xanadu?
+  Xanadu is UConn's bioinformatics-oriented computer cluster. See our documentation on it [here](https://bioinformatics.uconn.edu/resources-and-events/tutorials-2/xanadu/). 
+- What is SLURM?
+  SLURM is the job management software that coordinates requests for computational resources on Xanadu. Essentially, you write a script to execute some programs, submit it to SLURM, and SLURM sends it out to compute nodes in the cluster to be run. **ALL** work done on the cluster needs to be routed through SLURM. Again, see our documentation linked above. 
+- The SLURM header. 
+  When you 
+
 - "modules"
 
 array jobs
