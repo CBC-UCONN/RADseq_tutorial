@@ -32,9 +32,25 @@ This tutorial assumes you have some basic familiarity with `bash` and uses a few
 
   myprogram -I $INFILE -O $OUTDIR
   ```
+  The shell variable is a text string and is interpreted in the context in which it is invoked. 
 
+  Note that when _setting_ variables you write `VARIABLE=something`, but when _invoking_ variables you need that `$` at the beginning. You may also invoke variables by ${VARIABLE}. 
 
-- sed
+  Aside from making cleaner code, variables also provide the major advantage that we can easily substitute variables once in a script when necessary, instead of editing every occurence when a certain file, path or parameter needs to be changed. 
+
+- `sed`
+  
+  `sed`, or "the **s**tream **ed**itor" is a very flexible utility, but it is most often used to edit text read from the standard input stream. In this tutorial we might use it to construct or edit input or output file names. 
+
+  ```bash
+  # say we had an input file:
+  INFILE=007_downesi.fastq.gz
+  # and we wanted to create an output file name. 
+  # we can do:
+  OUTFILE=$(echo $INFILE | sed 's/.fastq.gz/.bam')
+  # now the variable outfile will contain "007_downesi.fastq.gz"
+  ```
+  Above, we write the input file name to the standard output stream using echo, redirect it to the standard input stream using a pipe, and edit it using `sed`. The find-replace operator for `sed` is `s/pattern/replacement/`. You can use regular expressions to do flexible pattern matching, but regexes are beyond the scope of this tutorial. 
 
 xanadu and SLURM
 - what is xanadu?
