@@ -8,83 +8,90 @@ This tutorial assumes you have some basic familiarity with `bash`. If you are no
 
 ### Pipes
 
-  bash scripts often chain together multiple commands with pipes: `|`. Pipes can be used with programs that can write output to the _standard output_ stream and read input from the _standard input_ stream. Try the following:
+bash scripts often chain together multiple commands with pipes: `|`. Pipes can be used with programs that can write output to the _standard output_ stream and read input from the _standard input_ stream. Try the following:
 
-  ```bash
-  # echo writes to the standard output stream
-  echo Hello World!
-  # now redirect that output using a pipe to 'tr', which can read from the standard input and edit text
-  echo Hello World! | tr " " "\n"
-  # this turns the space into a line break. 
-  ```
+```bash
+# echo writes to the standard output stream
+echo Hello World!
+# now redirect that output using a pipe to 'tr', which can read from the standard input and edit text
+echo Hello World! | tr " " "\n"
+# this turns the space into a line break. 
+```
 ### Shell variables
 
-  We often use variables in shell scripting to make code easier to read. For example, in a command that looks like this:
-  ```bash
+We often use variables in shell scripting to make code easier to read. For example, in a command that looks like this:
+```bash
 	myprogram -I /very/extremely/long/path/to/GARBLEDACCESSIONX1848XKKD.fasta -O /another/very/extremely/long/path/to/RESULTSDIRECTORY/
-  ```
+```
 
-  We might clean it up with variables by:
+We might clean it up with variables by:
 
-  ```bash
-  INFILE=/very/extremely/long/path/to/GARBLEDACCESSIONX1848XKKD.fasta
-  OUTDIR=/another/very/extremely/long/path/to/RESULTSDIRECTORY/
+```bash
+INFILE=/very/extremely/long/path/to/GARBLEDACCESSIONX1848XKKD.fasta
+OUTDIR=/another/very/extremely/long/path/to/RESULTSDIRECTORY/
 
-  myprogram -I $INFILE -O $OUTDIR
-  ```
-  The shell variable is a text string and is interpreted in the context in which it is invoked. 
+myprogram -I $INFILE -O $OUTDIR
+```
+The shell variable is a text string and is interpreted in the context in which it is invoked. 
 
-  Note that when _setting_ variables you write `VARIABLE=something`, but when _invoking_ variables you write `$VARIABLE`. You need that `$` at the beginning. You may also invoke variables by ${VARIABLE}. 
+Note that when _setting_ variables you write `VARIABLE=something`, but when _invoking_ variables you write `$VARIABLE`. You need that `$` at the beginning. You may also invoke variables by ${VARIABLE}. 
 
-  Aside from making cleaner code, variables also provide the major advantage that we can easily substitute variables once in a script when necessary, instead of editing every occurence when a certain file, path or parameter needs to be changed. 
+Aside from making cleaner code, variables also provide the major advantage that we can easily substitute variables once in a script when necessary, instead of editing every occurence when a certain file, path or parameter needs to be changed. 
 
 ### `sed`
   
-  `sed`, or the "**s**tream **ed**itor" is a very flexible utility, but it is most often used to edit text read from the standard input stream. In this tutorial we use it to construct or edit input or output file names. 
+`sed`, or the "**s**tream **ed**itor" is a very flexible utility, but it is most often used to edit text read from the standard input stream. In this tutorial we use it to construct or edit input or output file names. 
 
-  ```bash
-  # say we had an input file:
-  INFILE=007_downesi.fastq.gz
-  # and we wanted to create an output file name. 
-  # we can do:
-  OUTFILE=$(echo $INFILE | sed 's/.fastq.gz/.bam')
-  # now the variable $OUTFILE will contain "007_downesi.bam"
-  # and we could run our program
-  myprogram -I $INFILE -O $OUTFILE
-  ```
-  
-  Above, we write `$INFILE` to the standard output stream using `echo`, redirect it to the standard input stream using `|`, and edit it using `sed`. The find-replace operator for `sed` is `s/pattern/replacement/`. You can use regular expressions to do flexible pattern matching, but regexes are beyond the scope of this tutorial. 
+```bash
+# say we had an input file:
+INFILE=007_downesi.fastq.gz
+# and we wanted to create an output file name. 
+# we can do:
+OUTFILE=$(echo $INFILE | sed 's/.fastq.gz/.bam')
+# now the variable $OUTFILE will contain "007_downesi.bam"
+# and we could run our program
+myprogram -I $INFILE -O $OUTFILE
+```
 
-## The Xanadu cluster and SLURM
+Above, we define `$OUTFILE` by writing `$INFILE` to the standard output stream using `echo`, redirecting it to the standard input stream using `|`, and editing it using `sed`. We wrap the whole thing in `$()` to capture it and assign it to `$OUTFILE`. The find-replace operator for `sed` is `s/pattern/replacement/`. You can use regular expressions to do flexible pattern matching, but regexes are beyond the scope of this tutorial. 
+
+## The Xanadu cluster and SLURM.
 
 ### What is Xanadu?
 
-  Xanadu is UConn's bioinformatics-oriented computer cluster. See our documentation on it [here](https://bioinformatics.uconn.edu/resources-and-events/tutorials-2/xanadu/). 
+Xanadu is UConn's bioinformatics-oriented computer cluster. See our documentation on it [here](https://bioinformatics.uconn.edu/resources-and-events/tutorials-2/xanadu/). 
+
 ### What is SLURM?
 
-  SLURM is the job management software that coordinates requests for computational resources on Xanadu. Essentially, you write a script to execute some programs, submit it to SLURM, and SLURM sends it out to compute nodes in the cluster to be run. **ALL** work done on the cluster needs to be routed through SLURM. Again, see our documentation linked above. 
+[SLURM](https://slurm.schedmd.com/documentation.html) is the job management software that coordinates requests for computational resources on Xanadu. Essentially, you write a script to execute some programs, submit it to SLURM, and SLURM sends it out to compute nodes in the cluster to be run. **ALL** work done on the cluster needs to be routed through SLURM. Again, see our documentation linked above. 
+
 ### The SLURM header. 
 
-  When you submit a script to SLURM, you need to add a header specifying the resources the work will need. We have detailed documentation [here](https://github.com/CBC-UCONN/CBC_Docs/wiki/Requesting-resource-allocations-in-SLURM), but briefly, a SLURM header looks like this:
+When you submit a script to SLURM, you need to add a header specifying the resources the work will need. We have detailed documentation [here](https://github.com/CBC-UCONN/CBC_Docs/wiki/Requesting-resource-allocations-in-SLURM), but briefly, a SLURM header looks like this:
 
-  ```bash
-  #!/bin/bash
-  #SBATCH --job-name=bwa
-  #SBATCH -o %x_%A_%a.out
-  #SBATCH -e %x_%A_%a.err
-  #SBATCH --mail-type=ALL
-  #SBATCH --mail-user=noah.reid@uconn.edu
-  #SBATCH --ntasks=1
-  #SBATCH --cpus-per-task=4
-  #SBATCH --mem=5G
-  #SBATCH --partition=general
-  #SBATCH --qos=general
-  #SBATCH --array=[0-32]%20
-  ```
+```bash
+#!/bin/bash
+#SBATCH --job-name=bwa
+#SBATCH -o %x_%A_%a.out
+#SBATCH -e %x_%A_%a.err
+#SBATCH --mail-type=ALL
+#SBATCH --mail-user=noah.reid@uconn.edu
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=5G
+#SBATCH --partition=general
+#SBATCH --qos=general
+#SBATCH --array=[0-32]%20
+```
 
-- "modules"
+The lines starting with `#SBATCH` tell `SLURM` what to do with the job and what resources it needs. 
 
-array jobs
+### The `module` system. 
+
+The system administrators of Xanadu install and maintain many pieces of software you might need, including `stacks`, and you can request new ones by [contacting us](https://bioinformatics.uconn.edu/). To manage all this software (including old versions), we use the `Environment Modules` package. To see a list of software available you can type `module avail`. This produces a long list. To use a given piece of software, you use `module load software/version`. To load `bwa`, for example you would type `module load bwa/0.7.17`. 
+
+### Array jobs. 
+
 - what is an array job and how does it work?
 
 A couple of scripts in this tutorial utilize _array jobs_ in SLURM. 
