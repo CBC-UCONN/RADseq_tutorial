@@ -45,7 +45,7 @@ myprogram -I $INFILE -O $OUTDIR
 ```
 The shell variable is a text string and is interpreted in the context in which it is invoked. 
 
-Note that when _setting_ variables you write `VARIABLE=something`, but when _invoking_ variables you write `$VARIABLE`. You need that `$` at the beginning. You may also invoke variables by ${VARIABLE}. 
+Note that when _setting_ variables you write `VARIABLE=something`, but when _invoking_ variables you write `$VARIABLE`. You need that `$` at the beginning. You may also invoke variables by `${VARIABLE}`. 
 
 Aside from making cleaner code, variables also provide the major advantage that we can easily substitute variables once in a script when necessary, instead of editing every occurence when a certain file, path or parameter needs to be changed. 
 
@@ -74,7 +74,7 @@ Xanadu is UConn's bioinformatics-oriented computer cluster. See our documentatio
 
 ### What is SLURM?
 
-[SLURM](https://slurm.schedmd.com/documentation.html) is the job management software that coordinates requests for computational resources on Xanadu. Essentially, you write a script to execute some programs, submit it to SLURM, and SLURM sends it out to compute nodes in the cluster to be run. **ALL** work done on the cluster needs to be routed through SLURM. Again, see our documentation linked above. 
+[SLURM](https://slurm.schedmd.com/documentation.html) is the job management software that coordinates requests for computational resources on Xanadu. Essentially, you write a script to do some computational work, submit it to SLURM (using the command `sbatch`, e.g. `sbatch myscript.sh`), and SLURM sends it out to compute nodes in the cluster to be run. **ALL** work done on the cluster needs to be routed through SLURM. Again, see our documentation linked above. 
 
 ### The SLURM header. 
 
@@ -108,7 +108,7 @@ A couple of scripts in this tutorial utilize _array jobs_ in SLURM. A job array 
 
 ## Putting it all together
 
-To put all this together, we can use alignment of a collection of fastq files to a reference genome as an example. In the lacewing dataset we have 33 samples. To align them to the reference genome, we use [this script](/scripts/lacewings/c1_bwaalign.sh). It begins like this:
+To see how this all fits together, Let's look at the [beginning of the array job script](/scripts/lacewings/c1_bwaalign.sh) used to align the 33 lacewing fastq files to the reference genome: 
 
 ```bash
 #!/bin/bash
