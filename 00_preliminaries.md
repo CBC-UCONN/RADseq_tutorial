@@ -54,7 +54,8 @@ This tutorial assumes you have some basic familiarity with `bash`. If you are no
   ```
   Above, we write `$INFILE` to the standard output stream using `echo`, redirect it to the standard input stream using `|`, and edit it using `sed`. The find-replace operator for `sed` is `s/pattern/replacement/`. You can use regular expressions to do flexible pattern matching, but regexes are beyond the scope of this tutorial. 
 
-The Xanadu cluster and SLURM
+## The Xanadu cluster and SLURM
+
 - What is Xanadu?
   Xanadu is UConn's bioinformatics-oriented computer cluster. See our documentation on it [here](https://bioinformatics.uconn.edu/resources-and-events/tutorials-2/xanadu/). 
 - What is SLURM?
