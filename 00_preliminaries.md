@@ -52,6 +52,7 @@ This tutorial assumes you have some basic familiarity with `bash`. If you are no
   # and we could run our program
   myprogram -I $INFILE -O $OUTFILE
   ```
+  
   Above, we write `$INFILE` to the standard output stream using `echo`, redirect it to the standard input stream using `|`, and edit it using `sed`. The find-replace operator for `sed` is `s/pattern/replacement/`. You can use regular expressions to do flexible pattern matching, but regexes are beyond the scope of this tutorial. 
 
 ## The Xanadu cluster and SLURM
@@ -64,7 +65,22 @@ This tutorial assumes you have some basic familiarity with `bash`. If you are no
   SLURM is the job management software that coordinates requests for computational resources on Xanadu. Essentially, you write a script to execute some programs, submit it to SLURM, and SLURM sends it out to compute nodes in the cluster to be run. **ALL** work done on the cluster needs to be routed through SLURM. Again, see our documentation linked above. 
 ### The SLURM header. 
 
-  When you 
+  When you submit a script to SLURM, you need to add a header specifying the resources the work will need. We have detailed documentation [here](https://github.com/CBC-UCONN/CBC_Docs/wiki/Requesting-resource-allocations-in-SLURM), but briefly, a SLURM header looks like this:
+
+  ```bash
+  #!/bin/bash
+  #SBATCH --job-name=bwa
+  #SBATCH -o %x_%A_%a.out
+  #SBATCH -e %x_%A_%a.err
+  #SBATCH --mail-type=ALL
+  #SBATCH --mail-user=noah.reid@uconn.edu
+  #SBATCH --ntasks=1
+  #SBATCH --cpus-per-task=4
+  #SBATCH --mem=5G
+  #SBATCH --partition=general
+  #SBATCH --qos=general
+  #SBATCH --array=[0-32]%20
+  ```
 
 - "modules"
 
