@@ -48,13 +48,13 @@ __Structure:__
 	
    a. [ Demultiplex and preprocess data ](/01a_Lacewings_preprocess.md)
 	
-   b. [ Stacks _de novo_ ](/01b_Lacewings_stacksdenovo.md)
+   b. [ Stacks in _de novo_ mode ](/01b_Lacewings_stacksdenovo.md)
 
-   c. [ Stacks reference mapping ](/01c_Lacewings_stacksrefmap.md)
+   c. [ Stacks in reference mapping mode ](/01c_Lacewings_stacksrefmap.md)
 
-   d. [ ipyrad _de novo_ ]()
+   d. [ ipyrad in _de novo_ mode ]()
 
-   e. [ ipyrad reference mapping ]()
+   e. [ ipyrad in reference mapping mode ]()
 
 2. Green ash 
 

@@ -21,7 +21,7 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 
 ## Motivation
 
-In the [previous section](/01b_Lacewings_stacksdenovo.md) we ran stacks in _de novo_ mode, meaning that we assembled our sequence data into loci, called variants, and genotyped individuals without using a reference genome. This involved several clustering steps to parse out which sequences should belong to which loci both within and across individuals. In reference mapping mode, we align all the sequences to a reference genome, and membership in a locus is implied by mapping position in the reference. A major advantage of this approach is that we don't need to specify all those clustering thresholds. Additionally, distinct loci with high sequence similarity may be easier to distinguish if they are represented in the reference genome. 
+In the [previous section](/01b_Lacewings_stacksdenovo.md) we ran stacks in _de novo_ mode, meaning that we assembled our sequence data into loci, called variants, and genotyped individuals without using a reference genome. This involved several clustering steps to parse out which sequences should belong to which loci both within and across individuals. In reference mapping mode, we align all the sequences to a reference genome, and membership in a locus is implied by mapping position. A major advantage of this approach is that we don't need to specify all those clustering thresholds. Additionally, distinct loci with high sequence similarity may be easier to distinguish if they are represented in the reference genome. 
 
 This approach has only three steps:
 
@@ -29,7 +29,7 @@ This approach has only three steps:
 2. Run `gstacks` to identify RAD loci and genotype individuals. 
 3. Run `populations` to filter loci and reformat output for various downstream programs. 
 
-Here we'll use the wrapper `ref_map.pl` to run both `gstacks` and `populations`, as we demonstrated how to run the pipeline piecemeal in the previous section, and there is no real opportunity for parallelization after mapping, as all individuals must be considered simultaneously when genotyping. 
+Here we'll use the wrapper `ref_map.pl` to run both `gstacks` and `populations`. We demonstrated how to run the pipeline piecemeal in the previous section, and there is no real opportunity for parallelization (after mapping), as all individuals must be considered simultaneously when genotyping. 
 
 ## Step 1: Map to the reference genome
 
