@@ -154,11 +154,15 @@ First comes the SLURM header. The key to specifying this as an array job is the 
 
 We use a _bash array_(`FASTQS`), which is essentially a list, to hold all the fastq file names. The array is specified like this:
 
-`FASTQS=($(ls -1 $INDIR/*.fq.gz))`
+```bash
+FASTQS=($(ls -1 $INDIR/*.fq.gz))
+```
 
 In each instance of the script, we use `$SLURM_ARRAY_TASK_ID` to pull one element from the array and assign it to the variable `$INFILE`:
 
-`INFILE=$(echo ${FASTQS[$SLURM_ARRAY_TASK_ID]} | sed 's/.*\///')`
+```bash
+INFILE=$(echo ${FASTQS[$SLURM_ARRAY_TASK_ID]} | sed 's/.*\///')
+```
 
 The `sed` call uses a regular expression to remove the path from the file name. 
 
