@@ -42,7 +42,7 @@ Both datasets used in this tutorial are stored on the Xanadu cluster here: `/UCH
 
 __Structure:__
 
-0. [ Preliminaries ]()
+[ Preliminaries ](/00_preliminaries.md)
 
 1. Lacewings
 	

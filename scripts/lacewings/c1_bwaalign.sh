@@ -37,7 +37,7 @@ INFILE=$(echo ${FASTQS[$SLURM_ARRAY_TASK_ID]} | sed 's/.*\///')
 OUTFILE=$(echo $INFILE | sed 's/fq.gz/bam/')
 
 # get the sample ID and use it to specify the read group. 
-SAM=$(echo $OUTFILE | sed 's/\..*//')
+SAM=$(echo $OUTFILE | sed 's/.bam//')
 RG=$(echo \@RG\\tID:$SAM\\tSM:$SAM)
 
 # run bwa mem to align, then pipe it to samtools to compress, then again to sort
