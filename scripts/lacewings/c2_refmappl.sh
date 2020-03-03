@@ -10,7 +10,6 @@
 #SBATCH --qos=general
 #SBATCH --partition=general
 
-
 hostname
 date
 
