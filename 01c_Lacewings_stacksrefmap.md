@@ -43,13 +43,9 @@ bwa index /path/to/refgenome.fasta
 
 With an indexed reference genome in hand, we'll run [this script](/scripts/lacewings/c1_bwaalign.sh). 
 
-Several key parameters are represented by shell variables (e.g. $INFILE), which are defined at the beginning of the script. The core of the script looks like this:
+Several key parameters are represented by shell variables (e.g. $INFILE), which are defined at the beginning of the script (and explained [here](/00_preliminaries.md)). The core of the script looks like this:
 
 ```bash
-# get the sample ID and use it to specify the read group. 
-SAM=$(echo $OUTFILE | sed 's/.bam//')
-RG=$(echo \@RG\\tID:$SAM\\tSM:$SAM)
-
 # run bwa mem to align, then pipe it to samtools to compress, then again to sort
 bwa mem -t 4 -R $RG $REFERENCE $INDIR/$INFILE | \
 samtools view -S -h -u - | \
@@ -59,13 +55,15 @@ samtools sort -T /scratch/$SAM - >$OUTDIR/$OUTFILE
 samtools index $OUTDIR/$OUTFILE
 ```
 
-First we set a shell variable, `$SAM`, which is the sample name. This requires a bit of bash scripting. We infer the sample name from the output file name (defined higher in the script as part of the array job) as follows: The first output file name is `007_downesi.bam`. We use `echo` to send that file name to the standard output, then use a pipe, `|` to redirect it to `sed`. In this case, `sed` is doing a simple find-and-replace, stripping off the suffix ".bam". The basic syntax of `sed` in this case is 's/pattern/replacement/'. In this case, "pattern" is ".bam" and the replacement is empty. So the end result is setting `$SAM` equal to "007_downesi". 
+This call uses pipes (`|`) to align the reads, compress them, and sort them by genomic coordinate without writing any intermediate files. We've used `\` to break this command over several lines. 
 
-Next, we use the `$SAM` variable to set the read group variable `$RG`. When you specify the read group during the alignment, each read is tagged with this information. For more information on read groups, see the [SAM specification](https://samtools.github.io/hts-specs/SAMv1.pdf). This is not strictly necessary when using `stacks`, but it is generally good practice when doing reference alignment to add read group tags, and they are required when using other common variant callers (e.g. GATK). The result of adding the read group tag is that the SAM file header will contain the following line: `@RG	ID:007_downesi	SM:007_downesi` and each read will be given the following tag: `RG:Z:007_downesi`. 
+The first line invokes the aligner, `bwa mem`. The `-t` flag indicates how many CPU threads should be used, `-R` specifies the read group, then we give the reference genome and the input fastq file. The read group flag causes each SAM record to be tagged with a read group ID (for details see the [SAM specification](https://samtools.github.io/hts-specs/SAMv1.pdf)). This is not strictly necessary with `stacks`, but it is good practice, and required by other standard variant callers (`bcftools`, `gatk`, `freebayes`). 
 
-The next step is to use a pipe (`|`) to align the reads, compress them, and sort them by genomic coordinate without writing any intermediate files. We've used `\` to break this command over several lines. 
+`bwa mem` by default writes to the standard output, so we use a pipe, `|` to redirect that to `samtools view`. The `-S` flag indicates the input is in uncompressed SAM format, `-h` indicates the file header should be written, `-u` says output should be in uncompressed BAM and the final `-` indicates the input should be read from the standard input. 
 
-The first line invokes the aligner, `bwa mem`. The `-t` flag indicates how many CPU threads should be used, `-R` specifies the read group, then we give the reference genome and the input fastq file. `bwa mem` by default writes to the standard output, so we use a pipe, `|` to redirect that to `samtools view`. The `-S` flag indicates the input is in uncompressed SAM format, `-h` indicates the file header should be written, `-u` says output should be in uncompressed BAM and the final `-` indicates the input should be read from the standard input. 
+The BAM formatted alignments are then piped to `samtools sort` to be coordinate sorted and then written to a file. `-T` specifies a temporary file name that can be used if it necessary during sorting (it usually is). 
+
+Finally, we index the resulting bam files. 
 
 ## Step 2: refmap.pl
 

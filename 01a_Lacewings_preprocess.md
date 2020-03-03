@@ -71,7 +71,7 @@ The fastq files are also compressed using gzip, which is denoted by the suffix "
 We can inspect the fastq file using `less`, a text file viewer. Navigate to the `data/` directory and enter the following:
 
 ```bash
-less pool.fq.gz
+less lacewing_pool.fq.gz
 ```
 
 Type `q` to exit. 
@@ -79,7 +79,7 @@ Type `q` to exit.
 We can get a little better sense of what the sequences look like by summarizing a lot of them. From the `data/` directory enter the following:
 
 ```bash
-zcat pool.fq.gz | grep -P '^[ACGTN]{5,}' | head -n 1000 | cut -c 1-11 | sort | uniq -c | sort -g
+zcat lacewing_pool.fq.gz | grep -P '^[ACGTN]{5,}' | head -n 1000 | cut -c 1-11 | sort | uniq -c | sort -g
 ```
 
 The result is set of counts of 11bp sequences from the first 1000 fastq records. The last ten lines should look like this:
@@ -123,7 +123,7 @@ process_radtags \
 --adapter_mm 0
 ```
 
-In this code, some key files are represented as shell variables (e.g. `$POOL`) that are defined in the script. The flags are explained as follows: `-f` gives the sample pool. `-o` gives the output directory. `-b` is the barcode file. The file relating samples to barcodes is here `metadata/henrysamples.txt`. `-i` and `-y` indicate the input and output should be gzipped fastq files. `-e` indicates the restriction enzyme is SbfI. `-c` and `-q` remove reads with N's and overall low quality respectively. `-t` truncates reads to 145bp from the original 150bp. `-s` removes reads whose average quality in any window (0.15x read length) drops below 20. The `--adapter` flags give the adapter sequences and a mismatch tolerance, so that reads with adapter sequence can be filtered out. 
+In this code, some key files are represented as shell variables (e.g. `$POOL`) that are defined in the script. The flags are as follows: `-f` gives the sample pool. `-o` gives the output directory. `-b` is the barcode file. The file relating samples to barcodes is here `metadata/henrysamples.txt`. `-i` and `-y` indicate the input and output should be gzipped fastq files. `-e` indicates the restriction enzyme is SbfI. `-c` and `-q` remove reads with N's and overall low quality respectively. `-t` truncates reads to 145bp from the original 150bp (in these data the quality drops in the last few cycles). `-s` removes reads whose average quality in any window (0.15x read length) drops below 20. The `--adapter` flags give the adapter sequences and a mismatch tolerance, so that reads with adapter sequence can be filtered out. 
 
 It is worth noting that if the barcode + restriction enzyme recognition sequence comes within the mismatch tolerance of the adapter sequence, you can lose **all** the reads from that sample due to the adapter filtering. This happens with one sample in this dataset if you specify `--adapter_mm 2`. 
 
