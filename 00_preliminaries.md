@@ -6,7 +6,7 @@ Before we get started with the tutorial, here are a few bits of background you s
 
 This tutorial assumes you have some basic familiarity with `bash`. If you are not yet familiar with bash, see [here]() to learn and practice some of the basics. It also uses a few techniques that could be described as "intermediate bash scripting". Here are some of the more intermediate techniques we'll use in the tutorial:
 
-- Pipes
+### Pipes
 
   bash scripts often chain together multiple commands with pipes: `|`. Pipes can be used with programs that can write output to the _standard output_ stream and read input from the _standard input_ stream. Try the following:
 
@@ -17,7 +17,7 @@ This tutorial assumes you have some basic familiarity with `bash`. If you are no
   echo Hello World! | tr " " "\n"
   # this turns the space into a line break. 
   ```
-- Shell variables
+### Shell variables
 
   We often use variables in shell scripting to make code easier to read. For example, in a command that looks like this:
   ```bash
@@ -38,7 +38,7 @@ This tutorial assumes you have some basic familiarity with `bash`. If you are no
 
   Aside from making cleaner code, variables also provide the major advantage that we can easily substitute variables once in a script when necessary, instead of editing every occurence when a certain file, path or parameter needs to be changed. 
 
-- `sed`
+### `sed`
   
   `sed`, or the "**s**tream **ed**itor" is a very flexible utility, but it is most often used to edit text read from the standard input stream. In this tutorial we use it to construct or edit input or output file names. 
 
