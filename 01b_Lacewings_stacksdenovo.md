@@ -25,7 +25,7 @@ Each major step has an associated bash script tailored to the UConn CBC Xanadu c
 
 `Stacks` implements two methods for detecting variants in sets of sequenced samples: a _de novo_ approach, in which loci are assembled by sequence similarity, and a reference-mapping approach, in which loci are identified after alignment of all sequences to a reference genome. Here we will cover the _de novo_ approach, and demonstrate the reference mapping approach in the next section. 
 
-`Stacks` implements the entire _de novo_ pipeline in a single perl script `denovo_map.pl`, but here we will run each constituent module separately to demonstrate it. 
+`Stacks` implements the entire _de novo_ pipeline in a single perl script [`denovo_map.pl`](http://catchenlab.life.illinois.edu/stacks/comp/denovo_map.php), but here we will run each constituent module separately to demonstrate it. 
 
 Before we get started, it's worth explaining a little bit about how `Stacks` works in _de novo_ mode. There are six submodules to run. The first four collectively identify sequences within and across individuals that correspond to homologous loci, the fifth and sixth generate, filter and output genotypes. They are as follows:
 
