@@ -30,12 +30,12 @@ echo Hello World! | tr " " "\n"
 ```
 ### Shell variables
 
-We often use variables in shell scripting to make code easier to read. For example, in a command that looks like this:
+We often use variables in shell scripting to make code easier to read. An example command that looked like this:
 ```bash
-	myprogram -I /very/extremely/long/path/to/GARBLEDACCESSIONX1848XKKD.fasta -O /another/very/extremely/long/path/to/RESULTSDIRECTORY/
+myprogram -I /very/extremely/long/path/to/GARBLEDACCESSIONX1848XKKD.fasta -O /another/very/extremely/long/path/to/RESULTSDIRECTORY/
 ```
 
-We might clean it up with variables by:
+Might be cleaned up using variables by:
 
 ```bash
 INFILE=/very/extremely/long/path/to/GARBLEDACCESSIONX1848XKKD.fasta
