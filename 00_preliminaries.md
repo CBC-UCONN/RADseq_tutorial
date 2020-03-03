@@ -56,11 +56,14 @@ This tutorial assumes you have some basic familiarity with `bash`. If you are no
 
 ## The Xanadu cluster and SLURM
 
-- What is Xanadu?
+### What is Xanadu?
+
   Xanadu is UConn's bioinformatics-oriented computer cluster. See our documentation on it [here](https://bioinformatics.uconn.edu/resources-and-events/tutorials-2/xanadu/). 
-- What is SLURM?
+### What is SLURM?
+
   SLURM is the job management software that coordinates requests for computational resources on Xanadu. Essentially, you write a script to execute some programs, submit it to SLURM, and SLURM sends it out to compute nodes in the cluster to be run. **ALL** work done on the cluster needs to be routed through SLURM. Again, see our documentation linked above. 
-- The SLURM header. 
+### The SLURM header. 
+
   When you 
 
 - "modules"
