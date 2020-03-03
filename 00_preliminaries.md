@@ -11,6 +11,7 @@ Before we get started with the tutorial, here are a few bits of background you s
   - [What is SLURM?](#what-is-slurm)
   - [The SLURM header](#the-slurm-header)
   - [Array jobs](#array-jobs)
+- [Putting it all together](#putting-it-all-together)
 
 ## Bash scripting
 
@@ -102,9 +103,12 @@ The system administrators of Xanadu install and maintain many pieces of software
 
 ### Array jobs. 
 
-A couple of scripts in this tutorial utilize _array jobs_ in SLURM. A job array is a series of very similar or identical jobs (called tasks). For this reason, they can be executed with a single script that may be modified slightly in each instance. 
+A couple of scripts in this tutorial utilize _array jobs_ in SLURM. A job array is a series of very similar or identical jobs (called tasks). For this reason, they can be executed with a single script that may be modified slightly in each instance. A major advantage of array jobs is the ability to parallelize work without engaging in highly error-prone copy-paste-edit coding. 
 
-A major advantage of array jobs is the ability to parallelize work without engaging in highly error-prone copy-paste-edit coding. For example, we have 33 lacewing samples. To align fastq sequences from each of them to a reference genome, we use [this script](/scripts/lacewings/c1_bwaalign.sh). It begins like this:
+
+## Putting it all together
+
+To put all this together, we can use alignment of a collection of fastq files to a reference genome as an example. In the lacewing dataset we have 33 samples. To align them to the reference genome, we use [this script](/scripts/lacewings/c1_bwaalign.sh). It begins like this:
 
 ```bash
 #!/bin/bash
@@ -146,9 +150,19 @@ INFILE=$(echo ${FASTQS[$SLURM_ARRAY_TASK_ID]} | sed 's/.*\///')
 OUTFILE=$(echo $INFILE | sed 's/fq.gz/bam/')
 ```
 
-The key to the array job is the SLURM header line `#SBATCH --array=[0-32]%20`. This line means that the script should be run 33 times, with up to 20 tasks running at a time. Each task is given a number, from 0-32, which is assigned to the variable `$SLURM_ARRAY_TASK_ID`. We use each of the tools and concepts described above to load relevant software and define input and output files with one major wrinkle:
+First comes the SLURM header. The key to specifying this as an array job is the header line `#SBATCH --array=[0-32]%20`. This line means that the script should be run 33 times, with up to 20 tasks running at a time. Each task is given a number, from 0-32, which is assigned to the variable `$SLURM_ARRAY_TASK_ID`. We use each of the tools and concepts described above to load relevant software and define input and output files. There is one major wrinkle:
 
-We use a _bash array_(`FASTQS`), which is essentially a list, to hold all the fastq file names. In each instance of the script, we use `$SLURM_ARRAY_TASK_ID` to pull one element from the array, assign it to `$INFILE` and process it. The actual call to the aligner is left out of this code snippet and will be described in the [relevant section](/01c_Lacewings_stacksrefmap.md). 
+We use a _bash array_(`FASTQS`), which is essentially a list, to hold all the fastq file names. The array is specified like this:
+
+`FASTQS=($(ls -1 $INDIR/*.fq.gz))`
+
+In each instance of the script, we use `$SLURM_ARRAY_TASK_ID` to pull one element from the array and assign it to the variable `$INFILE`:
+
+`INFILE=$(echo ${FASTQS[$SLURM_ARRAY_TASK_ID]} | sed 's/.*\///')`
+
+The `sed` call uses a regular expression to remove the path from the file name. 
+
+The actual call to the aligner is left out of this code snippet and will be described in the [relevant section](/01c_Lacewings_stacksrefmap.md). 
 
 We also have written a [more detailed tutorial on using array jobs](https://github.com/CBC-UCONN/CBC_Docs/wiki/Job-arrays-on-Xanadu). 
 
