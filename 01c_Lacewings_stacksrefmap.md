@@ -92,4 +92,5 @@ ref_map.pl \
 -X "populations:--fasta-loci"
 ```
 
-The flags are as follows: `--samples` gives the directory containing the bam alignment files. `--popmap` gives the population map, as explained [here](/01b_Lacewings_stacksdenovo.md#Step-2-cstacks). 
+The flags are as follows: `--samples` gives the directory containing the bam alignment files. `--popmap` gives the population map giving the assignment of samples to populations, as explained [here](/01b_Lacewings_stacksdenovo.md#Step-2-cstacks). `-o` gives the output directory. `-T` gives the number of CPU threads to be used. The `-X` flags are used to feed command line options to the constituent parts of the `stacks` pipeline. In this case, we don't need to alter any options in `gstacks`, so we just feed the exact same options to `populations` as we did in the [previous section](/01b_Lacewings_stacksdenovo.md#Step-6-populations). 
+
