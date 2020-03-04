@@ -52,9 +52,9 @@ __Structure:__
 
    c. [ Stacks in reference mapping mode ](/01c_Lacewings_stacksrefmap.md)
 
-   d. [ ipyrad in _de novo_ mode ]()
+   d. [ ipyrad in _de novo_ mode ](01d_Lacewings_ipyraddenovo.md)
 
-   e. [ ipyrad in reference mapping mode ]()
+   e. [ ipyrad in reference mapping mode ](01e_Lacewings_ipyradrefmap.md)
 
 2. Green ash 
 

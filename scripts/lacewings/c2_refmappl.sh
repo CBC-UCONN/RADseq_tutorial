@@ -33,6 +33,7 @@ ref_map.pl \
 -T 10 \
 -X "populations:-p 5" \
 -X "populations:-r 2" \
+-X "populations:--genepop" \
 -X "populations:--hwe" \
 -X "populations:--vcf" \
 -X "populations:--treemix" \

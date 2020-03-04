@@ -15,7 +15,7 @@ Before we get started with the tutorial, here are a few bits of background you s
 
 ## Bash scripting
 
-This tutorial assumes you have some basic familiarity with `bash`. If you are not yet familiar with bash, see [here]() to learn and practice some of the basics. It also uses a few techniques that could be described as "intermediate bash scripting". Here are some of the more intermediate techniques we'll use in the tutorial:
+This tutorial assumes you have some basic familiarity with `bash`. If you are not yet familiar with bash, see [here](https://bioinformatics.uconn.edu/unix-basics/) and [here](https://www.webminal.org) to learn and practice some of the basics. It also uses a few techniques that could be described as "intermediate bash scripting". Here are some of the more intermediate techniques we'll use in the tutorial:
 
 ### Pipes
 
