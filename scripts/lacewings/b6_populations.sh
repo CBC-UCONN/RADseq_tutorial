@@ -34,4 +34,5 @@ populations \
 --fasta-samples \
 --fasta-loci \
 --treemix \
+--structure \
 -t 8

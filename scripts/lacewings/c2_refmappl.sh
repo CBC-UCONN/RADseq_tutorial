@@ -37,6 +37,7 @@ ref_map.pl \
 -X "populations:--hwe" \
 -X "populations:--vcf" \
 -X "populations:--treemix" \
+-X "populations:--structure" \
 -X "populations:--fasta-samples" \
 -X "populations:--fasta-loci"
 
